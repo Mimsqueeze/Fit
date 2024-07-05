@@ -16,27 +16,28 @@ import {
 
 function ProfileScreen(props) {
   return (
-    <SafeAreaView style = {[styles.container]}>
+    <SafeAreaView style={[styles.container]}>
       <ScrollView>
-      <Text style = {[styles.heading]}>
-        Profile
-      </Text>
-      <Pressable style = {styles.profileContainer} title = "Profile Edit">
-        <Image style = {styles.pfp} source = {require('../assets/sample.png')}></Image>
-        <View style = {styles.profileInfo}>
-          <Text style = {styles.name}>Name</Text>
-          <Text style = {styles.workouts}># of workouts</Text>
-        </View>
-      </Pressable>
-      <Text style = {styles.name}>Dashboard</Text>
-      <Pressable style = {styles.widget}>
-        <Text style = {styles.name}>Workouts Per Week</Text>
-        <Text style = {styles.workouts}>Activity</Text>
-      </Pressable>
-      <Pressable style = {styles.widget}>
-        <Text style = {styles.name}>Weight</Text>
-        <Text style = {styles.workouts}>Absolute</Text>
-      </Pressable> 
+        <Text style={[styles.heading]}>Profile</Text>
+        <Pressable style={styles.profileContainer} title="Profile Edit">
+          <Image
+            style={styles.pfp}
+            source={require("../assets/sample.png")}
+          ></Image>
+          <View style={styles.profileInfo}>
+            <Text style={styles.name}>Name</Text>
+            <Text style={styles.workouts}># of workouts</Text>
+          </View>
+        </Pressable>
+        <Text style={styles.name}>Dashboard</Text>
+        <Pressable style={styles.widget}>
+          <Text style={styles.name}>Workouts Per Week</Text>
+          <Text style={styles.workouts}>Activity</Text>
+        </Pressable>
+        <Pressable style={styles.widget}>
+          <Text style={styles.name}>Weight</Text>
+          <Text style={styles.workouts}>Absolute</Text>
+        </Pressable>
       </ScrollView>
     </SafeAreaView>
   );
@@ -45,21 +46,21 @@ function ProfileScreen(props) {
 const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
-    fontWeight: 'bold',
+    fontWeight: "bold",
   },
 
   container: {
     flex: 1,
     paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
     margin: 10,
-    justifyContent: 'space-between',
-    flexDirection: 'column',
+    justifyContent: "space-between",
+    flexDirection: "column",
   },
 
   profileContainer: {
     flex: 1,
     margin: 30,
-    flexDirection: 'row',
+    flexDirection: "row",
   },
 
   pfp: {
@@ -70,17 +71,17 @@ const styles = StyleSheet.create({
   profileInfo: {
     flex: 1,
     margin: 20,
-    flexDirection: 'column',
+    flexDirection: "column",
   },
 
   name: {
-    fontWeight: 'bold',
+    fontWeight: "bold",
     fontSize: 20,
   },
 
   workouts: {
     fontSize: 20,
-    color: 'grey',
+    color: "grey",
   },
 
   widget: {
@@ -89,7 +90,7 @@ const styles = StyleSheet.create({
     marginTop: 20,
     padding: 10,
     height: 200,
-  }
+  },
 });
 
 export default ProfileScreen;
