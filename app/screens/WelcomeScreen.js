@@ -30,7 +30,7 @@ function WelcomeScreen(props) {
       </TouchableNativeFeedback>
       <Button
         color={colors.secondary}
-        title="Click me"
+        title="Profile"
         onPress={() => props.navigation.navigate("Profile")}
       />
     </SafeAreaView>
