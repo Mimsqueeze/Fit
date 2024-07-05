@@ -12,7 +12,25 @@ import {
 } from "react-native";
 
 function ProfileScreen(props) {
-  return <Text>This is the profile screen</Text>;
+  return (
+    <SafeAreaView style = {styles.container}>
+      <Text style = {[styles.heading]}>
+        Profile
+      </Text>  
+    </SafeAreaView>
+  );
 }
+
+const styles = StyleSheet.create({
+  heading: {
+    fontSize: 30,
+    fontWeight: 600,
+  },
+
+  container: {
+    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
+    margin: 10,
+  },
+});
 
 export default ProfileScreen;
