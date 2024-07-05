@@ -70,6 +70,7 @@ const styles = StyleSheet.create({
   profileInfo: {
     flex: 1,
     margin: 20,
+    marginTop: 5,
     flexDirection: 'column',
   },
 
