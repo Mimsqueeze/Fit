@@ -31,12 +31,7 @@ function WelcomeScreen(props) {
       <Button
         color={colors.secondary}
         title="Click me"
-        onPress={() =>
-          Alert.alert("hello", "mims says hi", [
-            { text: "Yes", onPress: () => console.log("yes") },
-            { text: "No", onPress: () => console.log("no") },
-          ])
-        }
+        onPress={() => props.navigation.navigate("Profile")}
       />
     </SafeAreaView>
   );
