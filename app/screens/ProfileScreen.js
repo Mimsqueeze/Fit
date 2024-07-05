@@ -45,7 +45,7 @@ function ProfileScreen(props) {
 const styles = StyleSheet.create({
   heading: {
     fontSize: 30,
-    fontWeight: 800,
+    fontWeight: 'bold',
   },
 
   container: {
@@ -74,7 +74,7 @@ const styles = StyleSheet.create({
   },
 
   name: {
-    fontWeight: 800,
+    fontWeight: 'bold',
     fontSize: 20,
   },
 
