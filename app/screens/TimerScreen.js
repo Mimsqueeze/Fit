@@ -14,10 +14,10 @@ import {
   ScrollView,
 } from "react-native";
 
-function HistoryScreen() {
+function TimerScreen() {
   return (
     <View>
-        <Text>History Screen</Text>
+        <Text>Timer Screen</Text>
     </View>
   );
 }
@@ -26,4 +26,4 @@ const styles = StyleSheet.create({
 
 });
 
-export default HistoryScreen;
+export default TimerScreen;

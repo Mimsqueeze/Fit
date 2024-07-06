@@ -33,6 +33,31 @@ function WelcomeScreen(props) {
         title="Profile"
         onPress={() => props.navigation.navigate("Profile")}
       />
+      <Button
+        color={colors.secondary}
+        title="Exercise"
+        onPress={() => props.navigation.navigate("Exercise")}
+      />
+      <Button
+        color={colors.secondary}
+        title="History"
+        onPress={() => props.navigation.navigate("History")}
+      />
+      <Button
+        color={colors.secondary}
+        title="Measure"
+        onPress={() => props.navigation.navigate("Measure")}
+      />
+      <Button
+        color={colors.secondary}
+        title="Timer"
+        onPress={() => props.navigation.navigate("Timer")}
+      />
+      <Button
+        color={colors.secondary}
+        title="Workout"
+        onPress={() => props.navigation.navigate("Workout")}
+      />
     </SafeAreaView>
   );
 }
