@@ -21,21 +21,19 @@ import {exercises} from "../data/Exercise";
 function ExerciseScreen() {
   return (
     <SafeAreaView>
-        <ScrollView>
-            <AlphabetList 
-                data = {exercises} 
-                indexLetterStyle={{color: 'pink', fontSize: 15,}}
-                renderCustomItem={ (item) => (
-                    <View>
-                        <Pressable style = {styles.item}>
-                            <Image style = {styles.img} source = {item.photo}></Image>
-                            <Text style = {styles.text}>{item.value}</Text>
-                        </Pressable>
-                        <Text style = {styles.desc}>{item.description}</Text>
-                    </View>
-                )}
-            />
-        </ScrollView>
+        <AlphabetList 
+            data = {exercises} 
+            indexLetterStyle={{color: 'pink', fontSize: 15,}}
+            renderCustomItem={ (item) => (
+                <View>
+                    <Pressable style = {styles.item}>
+                        <Image style = {styles.img} source = {item.photo}></Image>
+                        <Text style = {styles.text}>{item.value}</Text>
+                    </Pressable>
+                    <Text style = {styles.desc}>{item.description}</Text>
+                </View>
+            )}
+        />
     </SafeAreaView>
   );
 }
