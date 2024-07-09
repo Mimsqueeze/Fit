@@ -23,9 +23,9 @@ function ExerciseScreen() {
     <SafeAreaView>
         <AlphabetList 
             data = {exercises} 
-            indexLetterStyle={{color: 'pink', fontSize: 15,}}
+            indexLetterStyle={{color: 'lightblue', fontSize: 15}}
             renderCustomItem={ (item) => (
-                <View>
+                <View style = {styles.divide}>
                     <Pressable style = {styles.item}>
                         <Image style = {styles.img} source = {item.photo}></Image>
                         <Text style = {styles.text}>{item.value}</Text>
@@ -59,6 +59,12 @@ const styles = StyleSheet.create({
         justifyContent: 'center',
         alignItems: 'center',
         textAlign: 'center',
+    },
+
+    divide: {
+        borderBottomWidth: 1,
+        borderBottomColor: 'grey',
+        marginHorizontal: 7,
     }
 });
 
