@@ -15,19 +15,24 @@ import {
 } from "react-native";
 import Workout from "../assets/components/Workout";
 
+const workoutData = require("../data/workoutData.json");
+
 function WorkoutScreen() {
-  const handlePress = () => {
-    Alert.alert("Button Pressed!");
+  const handleWidgetPress = (id) => {
+    Alert.alert("Button " + id + " " + "Pressed!");
   };
   return (
     <SafeAreaView style={[styles.container]}>
       <ScrollView>
         <Text style={[styles.heading]}>Workout</Text>
-        <Workout
-          title="Widget Title"
-          content="This is the widget content."
-          onPress={handlePress}
-        />
+        {workoutData.map((widget) => (
+          <Workout
+            key={widget.id}
+            title={widget.title}
+            content={widget.content}
+            onPress={() => handleWidgetPress(widget.id)}
+          />
+        ))}
       </ScrollView>
     </SafeAreaView>
   );
