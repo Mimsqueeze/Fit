@@ -17,6 +17,7 @@ import {
 import { AlphabetList } from "react-native-section-alphabet-list";
 
 import { exercises } from "../data/Exercise";
+// const exercises = require("../data/exercises.json");
 
 function ExerciseScreen() {
   return (
