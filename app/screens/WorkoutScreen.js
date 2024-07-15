@@ -1,93 +1,68 @@
 import React from "react";
 import {
-  StyleSheet,
-  Text,
   Platform,
   StatusBar,
   SafeAreaView,
-  TouchableNativeFeedback,
-  View,
-  Button,
   Alert,
-  Image,
-  Pressable,
   ScrollView,
+  Button,
+  View,
 } from "react-native";
-import Workout from "../assets/components/Workout";
+import styled from "styled-components/native";
+import Workout from "../assets/components/Template";
 
-const workoutData = require("../data/workoutData.json");
+const templateData = require("../data/templateData.json");
 
 function WorkoutScreen() {
   const handleWidgetPress = (id) => {
     Alert.alert("Button " + id + " " + "Pressed!");
   };
+
   return (
-    <SafeAreaView style={[styles.container]}>
+    <SafeContainer>
       <ScrollView>
-        <Text style={[styles.heading]}>Workout</Text>
-        {workoutData.map((widget) => (
+        <Header>Workout</Header>
+        <SubHeader>QUICK START</SubHeader>
+        <ButtonContainer>
+          <Button title="START AN EMPTY WORKOUT" />
+        </ButtonContainer>
+        <SubHeader>MY TEMPLATES</SubHeader>
+        {templateData.map((widget) => (
           <Workout
             key={widget.id}
             title={widget.title}
+            lastPerformed={widget.lastPerformed}
             content={widget.content}
             onPress={() => handleWidgetPress(widget.id)}
           />
         ))}
       </ScrollView>
-    </SafeAreaView>
+    </SafeContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  heading: {
-    fontSize: 30,
-    fontWeight: "bold",
-  },
+const ButtonContainer = styled(View)`
+  margin: 8px 0px;
+`;
 
-  container: {
-    flex: 1,
-    paddingTop: Platform.OS === "android" ? StatusBar.currentHeight : 0,
-    margin: 10,
-    justifyContent: "space-between",
-    flexDirection: "column",
-  },
+const SafeContainer = styled(SafeAreaView)`
+  flex: 1;
+  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
+  margin: 15px;
+  justify-content: space-between;
+  flex-direction: column;
+`;
 
-  profileContainer: {
-    flex: 1,
-    margin: 30,
-    flexDirection: "row",
-  },
+const Header = styled.Text`
+  font-size: 30px;
+  font-weight: bold;
+  margin: 10px 0;
+`;
 
-  pfp: {
-    height: 50,
-    width: 50,
-  },
-
-  profileInfo: {
-    flex: 1,
-    margin: 20,
-    marginTop: 5,
-    flexDirection: "column",
-    flexDirection: "column",
-  },
-
-  name: {
-    fontWeight: "bold",
-    fontSize: 20,
-  },
-
-  workouts: {
-    fontSize: 20,
-    color: "grey",
-  },
-
-  widget: {
-    borderWidth: 2,
-    borderRadius: 5,
-    marginTop: 20,
-    padding: 10,
-    height: 200,
-  },
-});
+const SubHeader = styled.Text`
+  font-size: 14px;
+  font-weight: bold;
+  margin: 8px 0;
+`;
 
 export default WorkoutScreen;

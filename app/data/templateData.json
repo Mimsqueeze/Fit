@@ -1,0 +1,29 @@
+[
+  {
+    "id": 1,
+    "title": "Push",
+    "content": [
+      { "workout": "Bench Press", "sets": 3 },
+      { "workout": "Overhead Press", "sets": 5 }
+    ],
+    "lastPerformed": "2024-07-14"
+  },
+  {
+    "id": 2,
+    "title": "Pull",
+    "content": [
+      { "workout": "Pull Ups", "sets": 3 },
+      { "workout": "Deadlift", "sets": 2 }
+    ],
+    "lastPerformed": "2024-07-12"
+  },
+  {
+    "id": 3,
+    "title": "Legs",
+    "content": [
+      { "workout": "Squats", "sets": 0 },
+      { "workout": "Hamstring Curl", "sets": 0 }
+    ],
+    "lastPerformed": "2024-07-10"
+  }
+]

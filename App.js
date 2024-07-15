@@ -1,4 +1,4 @@
-import {} from "react-native";
+import React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { Ionicons } from "@expo/vector-icons";
@@ -15,7 +15,7 @@ export default function App() {
   return (
     <NavigationContainer>
       <Tab.Navigator
-        screenOptions={({ route, navigation }) => ({
+        screenOptions={({ route }) => ({
           tabBarIcon: ({ color, focused, size }) => {
             let iconName;
             if (route.name === "Profile") {
@@ -33,11 +33,31 @@ export default function App() {
           },
         })}
       >
-        <Tab.Screen name="Profile" component={ProfileScreen} />
-        <Tab.Screen name="History" component={HistoryScreen} />
-        <Tab.Screen name="Workout" component={WorkoutScreen} />
-        <Tab.Screen name="Exercise" component={ExerciseScreen} />
-        <Tab.Screen name="Timer" component={TimerScreen} />
+        <Tab.Screen
+          name="Profile"
+          component={ProfileScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="History"
+          component={HistoryScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Workout"
+          component={WorkoutScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Exercise"
+          component={ExerciseScreen}
+          options={{ headerShown: false }}
+        />
+        <Tab.Screen
+          name="Timer"
+          component={TimerScreen}
+          options={{ headerShown: false }}
+        />
       </Tab.Navigator>
     </NavigationContainer>
   );
