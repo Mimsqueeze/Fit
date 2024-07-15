@@ -8,7 +8,7 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 
-const WorkoutContainer = styled.View`
+const TemplateContainer = styled.View`
   background-color: #fff;
   padding: 16px;
   margin-vertical: 8px;
@@ -19,12 +19,12 @@ const WorkoutContainer = styled.View`
   elevation: 3;
 `;
 
-const WorkoutTitle = styled.Text`
+const TemplateTitle = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
 
-const WorkoutContent = styled.View`
+const TemplateContent = styled.View`
   margin-top: 8px;
 `;
 
@@ -34,8 +34,8 @@ const ContentText = styled.Text`
   font-weight: bold;
 `;
 
-const Workout = ({ title, lastPerformed, content, onPress }) => {
-  // Calculate how many days ago the workout was performed
+const Template = ({ title, lastPerformed, content, onPress }) => {
+  // Calculate how many days ago the Template was performed
   const daysAgo = () => {
     const today = new Date();
     const performedDate = new Date(lastPerformed);
@@ -46,19 +46,19 @@ const Workout = ({ title, lastPerformed, content, onPress }) => {
 
   return (
     <TouchableNativeFeedback onPress={onPress}>
-      <WorkoutContainer>
-        <WorkoutTitle>{title}</WorkoutTitle>
+      <TemplateContainer>
+        <TemplateTitle>{title}</TemplateTitle>
         <ContentText>Last performed: {daysAgo()} days ago</ContentText>
-        <WorkoutContent>
+        <TemplateContent>
           {content.map((item, index) => (
             <ContentText key={index}>
               {item.sets} x {item.workout}
             </ContentText>
           ))}
-        </WorkoutContent>
-      </WorkoutContainer>
+        </TemplateContent>
+      </TemplateContainer>
     </TouchableNativeFeedback>
   );
 };
 
-export default Workout;
+export default Template;

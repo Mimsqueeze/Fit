@@ -3,19 +3,21 @@ import {
   Platform,
   StatusBar,
   SafeAreaView,
-  Alert,
   ScrollView,
   Button,
   View,
 } from "react-native";
 import styled from "styled-components/native";
-import Workout from "../assets/components/Template";
+import Template from "../components/Template";
+import { useNavigation } from "@react-navigation/native";
 
 const templateData = require("../data/templateData.json");
 
 function WorkoutScreen() {
-  const handleWidgetPress = (id) => {
-    Alert.alert("Button " + id + " " + "Pressed!");
+  const navigation = useNavigation();
+
+  const handleTemplatePress = (workout) => {
+    navigation.navigate("DetailScreen", { workout });
   };
 
   return (
@@ -27,13 +29,13 @@ function WorkoutScreen() {
           <Button title="START AN EMPTY WORKOUT" />
         </ButtonContainer>
         <SubHeader>MY TEMPLATES</SubHeader>
-        {templateData.map((widget) => (
-          <Workout
-            key={widget.id}
-            title={widget.title}
-            lastPerformed={widget.lastPerformed}
-            content={widget.content}
-            onPress={() => handleWidgetPress(widget.id)}
+        {templateData.map((workout) => (
+          <Template
+            key={workout.id}
+            title={workout.title}
+            lastPerformed={workout.lastPerformed}
+            content={workout.content}
+            onPress={() => handleTemplatePress(workout)}
           />
         ))}
       </ScrollView>
