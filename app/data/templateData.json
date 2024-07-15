@@ -3,8 +3,12 @@
     "id": 1,
     "title": "Push",
     "content": [
-      { "workout": "Bench Press", "sets": 3 },
-      { "workout": "Overhead Press", "sets": 5 }
+      { "name": "Bench Press", "sets": 3, "muscles": ["Chest", "Triceps"] },
+      {
+        "name": "Overhead Press",
+        "sets": 5,
+        "muscles": ["Front Delts", "Triceps"]
+      }
     ],
     "lastPerformed": "2024-07-14"
   },
@@ -12,8 +16,12 @@
     "id": 2,
     "title": "Pull",
     "content": [
-      { "workout": "Pull Ups", "sets": 3 },
-      { "workout": "Deadlift", "sets": 2 }
+      { "name": "Pull Ups", "sets": 3, "muscles": ["Lats", "Biceps"] },
+      {
+        "name": "Deadlift",
+        "sets": 2,
+        "muscles": ["Lower Back", "Quads", "Glutes"]
+      }
     ],
     "lastPerformed": "2024-07-12"
   },
@@ -21,8 +29,8 @@
     "id": 3,
     "title": "Legs",
     "content": [
-      { "workout": "Squats", "sets": 0 },
-      { "workout": "Hamstring Curl", "sets": 0 }
+      { "name": "Squats", "sets": 0, "muscles": ["Quads", "Glutes"] },
+      { "name": "Hamstring Curl", "sets": 0, "muscles": ["Hamstrings"] }
     ],
     "lastPerformed": "2024-07-10"
   }

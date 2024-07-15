@@ -7,6 +7,7 @@ import {
   Button,
   View,
 } from "react-native";
+import { Header, SubHeader } from "../config/style";
 import styled from "styled-components/native";
 import Template from "../components/Template";
 import { useNavigation } from "@react-navigation/native";
@@ -43,11 +44,7 @@ function WorkoutScreen() {
   );
 }
 
-const ButtonContainer = styled(View)`
-  margin: 8px 0px;
-`;
-
-const SafeContainer = styled(SafeAreaView)`
+export const SafeContainer = styled(SafeAreaView)`
   flex: 1;
   padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
   margin: 15px;
@@ -55,16 +52,8 @@ const SafeContainer = styled(SafeAreaView)`
   flex-direction: column;
 `;
 
-const Header = styled.Text`
-  font-size: 30px;
-  font-weight: bold;
-  margin: 10px 0;
-`;
-
-const SubHeader = styled.Text`
-  font-size: 14px;
-  font-weight: bold;
-  margin: 8px 0;
+export const ButtonContainer = styled(View)`
+  margin: 8px 0px;
 `;
 
 export default WorkoutScreen;

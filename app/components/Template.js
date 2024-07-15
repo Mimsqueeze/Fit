@@ -7,6 +7,7 @@ import {
   TouchableNativeFeedback,
 } from "react-native";
 import styled from "styled-components/native";
+import { Header, SubHeader, ContentText } from "../config/style";
 
 const TemplateContainer = styled.View`
   background-color: #fff;
@@ -28,12 +29,6 @@ const TemplateContent = styled.View`
   margin-top: 8px;
 `;
 
-const ContentText = styled.Text`
-  font-size: 14px;
-  color: #666;
-  font-weight: bold;
-`;
-
 const Template = ({ title, lastPerformed, content, onPress }) => {
   // Calculate how many days ago the Template was performed
   const daysAgo = () => {
@@ -52,7 +47,7 @@ const Template = ({ title, lastPerformed, content, onPress }) => {
         <TemplateContent>
           {content.map((item, index) => (
             <ContentText key={index}>
-              {item.sets} x {item.workout}
+              {item.sets} x {item.name}
             </ContentText>
           ))}
         </TemplateContent>

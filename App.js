@@ -73,7 +73,11 @@ export default function App() {
           component={HomeTabs}
           options={{ headerShown: false }}
         />
-        <Stack.Screen name="DetailScreen" component={DetailScreen} />
+        <Stack.Screen
+          name="DetailScreen"
+          component={DetailScreen}
+          options={{ headerTitle: "" }}
+        />
       </Stack.Navigator>
     </NavigationContainer>
   );
