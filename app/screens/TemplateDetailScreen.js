@@ -9,9 +9,9 @@ import {
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
-import Movement from "../components/Movement";
+import TemplateMovement from "../components/TemplateMovement";
 
-function DetailScreen({ route }) {
+function TemplateDetailScreen({ route }) {
   const { workout } = route.params;
   return (
     <SafeContainer>
@@ -21,10 +21,11 @@ function DetailScreen({ route }) {
           <ContentText>
             Last performed: {daysAgo(workout.lastPerformed)} days ago
           </ContentText>
-          {workout.content.map((movement) => (
-            <Movement
+          {workout.content.map((movement, index) => (
+            <TemplateMovement
+              key={index}
               name={movement.name}
-              sets={movement.sets}
+              numSets={movement.numSets}
               muscles={movement.muscles}
             />
           ))}
@@ -62,4 +63,4 @@ export const ButtonContainer = styled(View)`
   margin: 8px 0px;
 `;
 
-export default DetailScreen;
+export default TemplateDetailScreen;

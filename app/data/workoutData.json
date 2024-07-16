@@ -54,5 +54,41 @@
     ],
     "lastPerformed": "2024-07-12T09:15:30",
     "time": 3080
+  },
+  {
+    "id": 3,
+    "title": "Legs",
+    "content": [
+      {
+        "name": "Deadlift",
+        "numSets": 2,
+        "sets": [
+          { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 245, "reps": 12, "rir": 3 }
+        ],
+        "muscles": ["Lower Back", "Quads", "Glutes"]
+      }
+    ],
+    "lastPerformed": "2024-06-12T09:15:30",
+    "time": 3080
+  },
+  {
+    "id": 4,
+    "title": "Full Body",
+    "content": [
+      {
+        "name": "Push Ups",
+        "numSets": 3,
+        "sets": [
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 2 },
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 0 }
+        ],
+        "muscles": ["Lats", "Biceps"]
+      }
+    ],
+    "lastPerformed": "2023-03-12T09:15:30",
+    "time": 3080
   }
 ]
