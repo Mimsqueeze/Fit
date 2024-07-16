@@ -8,7 +8,8 @@ import ProfileScreen from "./app/screens/ProfileScreen";
 import ExerciseScreen from "./app/screens/ExerciseScreen";
 import HistoryScreen from "./app/screens/HistoryScreen";
 import TimerScreen from "./app/screens/TimerScreen";
-import DetailScreen from "./app/screens/DetailScreen";
+import TemplateDetailScreen from "./app/screens/TemplateDetailScreen";
+import WorkoutDetailScreen from "./app/screens/WorkoutDetailScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 
 const Tab = createBottomTabNavigator();
@@ -74,8 +75,13 @@ export default function App() {
           options={{ headerShown: false }}
         />
         <Stack.Screen
-          name="DetailScreen"
-          component={DetailScreen}
+          name="TemplateDetailScreen"
+          component={TemplateDetailScreen}
+          options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="WorkoutDetailScreen"
+          component={WorkoutDetailScreen}
           options={{ headerTitle: "" }}
         />
       </Stack.Navigator>

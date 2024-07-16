@@ -18,7 +18,7 @@ function WorkoutScreen() {
   const navigation = useNavigation();
 
   const handleTemplatePress = (workout) => {
-    navigation.navigate("DetailScreen", { workout });
+    navigation.navigate("TemplateDetailScreen", { workout });
   };
 
   return (

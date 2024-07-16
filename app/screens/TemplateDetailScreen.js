@@ -11,8 +11,9 @@ import {
 import { Header, SubHeader, ContentText } from "../config/style";
 import Movement from "../components/Movement";
 
-function DetailScreen({ route }) {
+function TemplateDetailScreen({ route }) {
   const { workout } = route.params;
+  let key = 1;
   return (
     <SafeContainer>
       <FlexBox>
@@ -23,6 +24,7 @@ function DetailScreen({ route }) {
           </ContentText>
           {workout.content.map((movement) => (
             <Movement
+              key={key++}
               name={movement.name}
               sets={movement.sets}
               muscles={movement.muscles}
@@ -62,4 +64,4 @@ export const ButtonContainer = styled(View)`
   margin: 8px 0px;
 `;
 
-export default DetailScreen;
+export default TemplateDetailScreen;

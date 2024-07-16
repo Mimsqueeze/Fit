@@ -1,0 +1,28 @@
+[
+  {
+    "id": 1,
+    "title": "Push",
+    "content": [
+      { "name": "Bench Press", "sets": 3, "muscles": ["Chest", "Triceps"] },
+      {
+        "name": "Overhead Press",
+        "sets": 5,
+        "muscles": ["Front Delts", "Triceps"]
+      }
+    ],
+    "lastPerformed": "2024-07-14"
+  },
+  {
+    "id": 2,
+    "title": "Pull",
+    "content": [
+      { "name": "Pull Ups", "sets": 3, "muscles": ["Lats", "Biceps"] },
+      {
+        "name": "Deadlift",
+        "sets": 2,
+        "muscles": ["Lower Back", "Quads", "Glutes"]
+      }
+    ],
+    "lastPerformed": "2024-07-12"
+  }
+]
