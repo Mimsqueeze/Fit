@@ -9,7 +9,7 @@ import {
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
-import Movement from "../components/Movement";
+import TemplateMovement from "../components/TemplateMovement";
 
 function WorkoutDetailScreen({ route }) {
   const { workout } = route.params;
@@ -19,14 +19,12 @@ function WorkoutDetailScreen({ route }) {
       <FlexBox>
         <ScrollView>
           <Header>{workout.title}</Header>
-          <ContentText>
-            Last performed: {daysAgo(workout.lastPerformed)} days ago
-          </ContentText>
+          <ContentText>{formatDateTime(workout.lastPerformed)}</ContentText>
           {workout.content.map((movement) => (
-            <Movement
+            <TemplateMovement
               key={key++}
               name={movement.name}
-              sets={movement.sets}
+              numSets={movement.numSets}
               muscles={movement.muscles}
             />
           ))}
@@ -39,13 +37,30 @@ function WorkoutDetailScreen({ route }) {
   );
 }
 
-const daysAgo = (lastPerformed) => {
-  const today = new Date();
-  const performedDate = new Date(lastPerformed);
-  const diffTime = Math.abs(today - performedDate);
-  const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-  return diffDays;
-};
+function formatDateTime(isoString) {
+  const date = new Date(isoString);
+
+  // Define options for toLocaleDateString
+  const dateOptions = {
+    weekday: "long",
+    year: "numeric",
+    month: "long",
+    day: "numeric",
+  };
+
+  // Define options for toLocaleTimeString
+  const timeOptions = {
+    hour: "numeric",
+    minute: "numeric",
+    hour12: true,
+  };
+
+  // Format date and time separately
+  const formattedDate = date.toLocaleDateString("en-US", dateOptions);
+  const formattedTime = date.toLocaleTimeString("en-US", timeOptions);
+
+  return `${formattedDate} at ${formattedTime}`;
+}
 
 export const FlexBox = styled(SafeAreaView)`
   flex: 1;

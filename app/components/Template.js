@@ -47,7 +47,7 @@ const Template = ({ title, lastPerformed, content, onPress }) => {
         <TemplateContent>
           {content.map((item, index) => (
             <ContentText key={index}>
-              {item.sets} x {item.name}
+              {item.numSets} x {item.name}
             </ContentText>
           ))}
         </TemplateContent>

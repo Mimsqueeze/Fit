@@ -9,7 +9,7 @@ import {
 import styled from "styled-components/native";
 import { Header, SubHeader, ContentText } from "../config/style";
 
-const MovementContainer = styled.View`
+const TemplateMovementContainer = styled.View`
   background-color: #fff;
   padding: 16px;
   margin-vertical: 8px;
@@ -20,22 +20,22 @@ const MovementContainer = styled.View`
   elevation: 3;
 `;
 
-const MovementName = styled.Text`
+const TemplateMovementName = styled.Text`
   font-size: 18px;
   font-weight: bold;
 `;
 
-const Movement = ({ name, sets, muscles }) => {
+const TemplateMovement = ({ name, numSets, muscles }) => {
   return (
     <TouchableNativeFeedback>
-      <MovementContainer>
-        <MovementName>
-          {sets} x {name}
-        </MovementName>
+      <TemplateMovementContainer>
+        <TemplateMovementName>
+          {numSets} x {name}
+        </TemplateMovementName>
         <ContentText>{muscles.join(", ")}</ContentText>
-      </MovementContainer>
+      </TemplateMovementContainer>
     </TouchableNativeFeedback>
   );
 };
 
-export default Movement;
+export default TemplateMovement;

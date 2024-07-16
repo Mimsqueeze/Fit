@@ -9,11 +9,10 @@ import {
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
-import Movement from "../components/Movement";
+import TemplateMovement from "../components/TemplateMovement";
 
 function TemplateDetailScreen({ route }) {
   const { workout } = route.params;
-  let key = 1;
   return (
     <SafeContainer>
       <FlexBox>
@@ -22,11 +21,11 @@ function TemplateDetailScreen({ route }) {
           <ContentText>
             Last performed: {daysAgo(workout.lastPerformed)} days ago
           </ContentText>
-          {workout.content.map((movement) => (
-            <Movement
-              key={key++}
+          {workout.content.map((movement, index) => (
+            <TemplateMovement
+              key={index}
               name={movement.name}
-              sets={movement.sets}
+              numSets={movement.numSets}
               muscles={movement.muscles}
             />
           ))}

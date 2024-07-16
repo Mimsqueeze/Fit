@@ -31,6 +31,7 @@ function HistoryScreen() {
             key={workout.id}
             title={workout.title}
             lastPerformed={workout.lastPerformed}
+            time={workout.time}
             content={workout.content}
             onPress={() => handleWorkoutPress(workout)}
           />

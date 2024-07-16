@@ -3,26 +3,56 @@
     "id": 1,
     "title": "Push",
     "content": [
-      { "name": "Bench Press", "sets": 3, "muscles": ["Chest", "Triceps"] },
+      {
+        "name": "Bench Press",
+        "numSets": 3,
+        "sets": [
+          { "lbs": 50, "reps": 12 },
+          { "lbs": 50, "reps": 12 },
+          { "lbs": 50, "reps": 12 }
+        ],
+        "muscles": ["Chest", "Triceps"]
+      },
       {
         "name": "Overhead Press",
-        "sets": 5,
+        "numSets": 5,
+        "sets": [
+          { "lbs": 80, "reps": 10 },
+          { "lbs": 80, "reps": 10 },
+          { "lbs": 80, "reps": 10 }
+        ],
         "muscles": ["Front Delts", "Triceps"]
       }
     ],
-    "lastPerformed": "2024-07-14"
+    "lastPerformed": "2024-07-14T12:34:56",
+    "time": 4020
   },
   {
     "id": 2,
     "title": "Pull",
     "content": [
-      { "name": "Pull Ups", "sets": 3, "muscles": ["Lats", "Biceps"] },
+      {
+        "name": "Pull Ups",
+        "numSets": 3,
+        "sets": [
+          { "lbs": 10, "reps": 12 },
+          { "lbs": 10, "reps": 12 },
+          { "lbs": 10, "reps": 12 }
+        ],
+        "muscles": ["Lats", "Biceps"]
+      },
       {
         "name": "Deadlift",
-        "sets": 2,
+        "numSets": 2,
+        "sets": [
+          { "lbs": 225, "reps": 12 },
+          { "lbs": 225, "reps": 12 },
+          { "lbs": 245, "reps": 12 }
+        ],
         "muscles": ["Lower Back", "Quads", "Glutes"]
       }
     ],
-    "lastPerformed": "2024-07-12"
+    "lastPerformed": "2024-07-12T09:15:30",
+    "time": 3080
   }
 ]
