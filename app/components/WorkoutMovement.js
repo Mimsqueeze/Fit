@@ -5,6 +5,7 @@ import {
   StyleSheet,
   TouchableOpacity,
   TouchableNativeFeedback,
+  SafeAreaView,
 } from "react-native";
 import styled from "styled-components/native";
 import { Header, SubHeader, ContentText } from "../config/style";
@@ -25,14 +26,33 @@ const WorkoutMovementName = styled.Text`
   font-weight: bold;
 `;
 
-const WorkoutMovement = ({ name, numSets, muscles }) => {
+export const FlexBox = styled(SafeAreaView)`
+  flex: 1;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
+const WorkoutMovement = ({ name, numSets, sets, muscles }) => {
+  let setNumber = 1;
   return (
     <TouchableNativeFeedback>
       <WorkoutMovementContainer>
         <WorkoutMovementName>
           {numSets} x {name}
         </WorkoutMovementName>
-        <ContentText>{muscles.join(", ")}</ContentText>
+        {sets.map((set, index) => (
+          <FlexBox key={index}>
+            <ContentText>
+              {set.type === "warmup"
+                ? "W"
+                : set.type === "working"
+                ? setNumber++
+                : "D"}
+              : {set.lbs} lbs × {set.reps}
+            </ContentText>
+            <ContentText>RIR: {set.rir}</ContentText>
+          </FlexBox>
+        ))}
       </WorkoutMovementContainer>
     </TouchableNativeFeedback>
   );

@@ -3,35 +3,56 @@
     "id": 1,
     "title": "Push",
     "content": [
-      { "name": "Bench Press", "numSets": 3, "muscles": ["Chest", "Triceps"] },
+      {
+        "name": "Bench Press",
+        "numSets": 3,
+        "sets": [
+          { "type": "warmup", "lbs": 50, "reps": 12, "rir": 4 },
+          { "type": "working", "lbs": 50, "reps": 12, "rir": 3 },
+          { "type": "drop", "lbs": 50, "reps": 12, "rir": 1 }
+        ],
+        "muscles": ["Chest", "Triceps"]
+      },
       {
         "name": "Overhead Press",
         "numSets": 5,
+        "sets": [
+          { "type": "working", "lbs": 80, "reps": 10, "rir": 3 },
+          { "type": "working", "lbs": 80, "reps": 10, "rir": 3 },
+          { "type": "working", "lbs": 80, "reps": 10, "rir": 5 }
+        ],
         "muscles": ["Front Delts", "Triceps"]
       }
     ],
-    "lastPerformed": "2024-07-14T12:00:00"
+    "lastPerformed": "2024-07-14T12:34:56",
+    "time": 4020
   },
   {
     "id": 2,
     "title": "Pull",
     "content": [
-      { "name": "Pull Ups", "numSets": 3, "muscles": ["Lats", "Biceps"] },
+      {
+        "name": "Pull Ups",
+        "numSets": 3,
+        "sets": [
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 2 },
+          { "type": "working", "lbs": 10, "reps": 12, "rir": 0 }
+        ],
+        "muscles": ["Lats", "Biceps"]
+      },
       {
         "name": "Deadlift",
         "numSets": 2,
+        "sets": [
+          { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },
+          { "type": "working", "lbs": 245, "reps": 12, "rir": 3 }
+        ],
         "muscles": ["Lower Back", "Quads", "Glutes"]
       }
     ],
-    "lastPerformed": "2024-07-12T09:15:30"
-  },
-  {
-    "id": 3,
-    "title": "Legs",
-    "content": [
-      { "name": "Squats", "numSets": 0, "muscles": ["Quads", "Glutes"] },
-      { "name": "Hamstring Curl", "numSets": 0, "muscles": ["Hamstrings"] }
-    ],
-    "lastPerformed": "2024-07-10T15:45:00"
+    "lastPerformed": "2024-07-12T09:15:30",
+    "time": 3080
   }
 ]

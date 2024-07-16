@@ -9,22 +9,29 @@ import {
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
-import TemplateMovement from "../components/TemplateMovement";
+import WorkoutMovement from "../components/WorkoutMovement";
+import { Ionicons } from "@expo/vector-icons";
 
 function WorkoutDetailScreen({ route }) {
   const { workout } = route.params;
-  let key = 1;
   return (
     <SafeContainer>
       <FlexBox>
         <ScrollView>
           <Header>{workout.title}</Header>
-          <ContentText>{formatDateTime(workout.lastPerformed)}</ContentText>
-          {workout.content.map((movement) => (
-            <TemplateMovement
-              key={key++}
+          <DateTimeContainer>
+            <ContentText>{formatDateTime(workout.lastPerformed)}</ContentText>
+            <TimeContainer>
+              <Ionicons name="time-outline" size={20} color="#666" />
+              <ContentText>{formatTime(workout.time)}</ContentText>
+            </TimeContainer>
+          </DateTimeContainer>
+          {workout.content.map((movement, index) => (
+            <WorkoutMovement
+              key={index}
               name={movement.name}
               numSets={movement.numSets}
+              sets={movement.sets}
               muscles={movement.muscles}
             />
           ))}
@@ -35,6 +42,20 @@ function WorkoutDetailScreen({ route }) {
       </FlexBox>
     </SafeContainer>
   );
+}
+
+function formatTime(time) {
+  const hours = Math.floor(time / 3600);
+  const minutes = Math.floor((time % 3600) / 60);
+
+  let formattedTime = "";
+  if (hours > 0) {
+    formattedTime += `${hours}h `;
+  }
+  if (minutes > 0 || hours === 0) {
+    formattedTime += `${minutes}m`;
+  }
+  return formattedTime.trim();
 }
 
 function formatDateTime(isoString) {
@@ -77,6 +98,19 @@ export const SafeContainer = styled(SafeAreaView)`
 
 export const ButtonContainer = styled(View)`
   margin: 8px 0px;
+`;
+
+export const DateTimeContainer = styled(SafeAreaView)`
+  flex: 1;
+  justify-content: space-between;
+  flex-direction: row;
+`;
+
+const TimeContainer = styled(SafeAreaView)`
+  flex: 1;
+  justify-content: flex-end;
+  align-items: center;
+  flex-direction: row;
 `;
 
 export default WorkoutDetailScreen;
