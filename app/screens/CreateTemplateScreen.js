@@ -1,19 +1,17 @@
 import React, { useState } from "react";
-import { View, TextInput } from "react-native";
-import styled from "styled-components/native";
 import {
-  Platform,
-  StatusBar,
-  SafeAreaView,
-  ScrollView,
-  Button,
+  View,
+  TextInput,
   TouchableOpacity,
+  Button,
+  ScrollView,
 } from "react-native";
-import { Header, SubHeader, ContentText } from "../config/style";
-import ExerciseItem from "../components/ExerciseItem";
+import styled from "styled-components/native";
+import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
+import ExerciseItem from "../components/ExerciseItem";
 
-let newTemplate = {
+const newTemplate = {
   id: {},
   title: "Pull",
   content: [
@@ -41,6 +39,24 @@ const TemplateTitleInput = styled.TextInput`
 
 function CreateTemplateScreen() {
   const [title, setTitle] = useState("New Workout Template");
+  const [exercises, setExercises] = useState(newTemplate.content);
+
+  const addExercise = () => {
+    const newExercise = {
+      name: "New Exercise",
+      numSets: 0,
+      sets: [],
+      muscles: [],
+    };
+    setExercises([...exercises, newExercise]);
+  };
+
+  const handleRemoveExercise = (index) => {
+    console.log(index);
+    console.log(exercises[index]);
+    const updatedExercises = exercises.filter((_, i) => i !== index);
+    setExercises(updatedExercises);
+  };
 
   return (
     <SafeContainer>
@@ -57,15 +73,19 @@ function CreateTemplateScreen() {
             <Ionicons name="ellipsis-vertical" size={20} color="#2296f3" />
           </TouchableOpacity>
         </TitleContainer>
-        {newTemplate.content.map((exercise, index) => (
+        {exercises.map((exercise, index) => (
           <ExerciseItem
             key={index}
             name={exercise.name}
             numSets={exercise.numSets}
             sets={exercise.sets}
             muscles={exercise.muscles}
+            onRemoveExercise={() => handleRemoveExercise(index)}
           />
         ))}
+        <ButtonContainer>
+          <Button title="ADD EXERCISE" onPress={addExercise} />
+        </ButtonContainer>
       </ScrollView>
     </SafeContainer>
   );
@@ -78,7 +98,7 @@ export const FlexBox = styled(SafeAreaView)`
 `;
 export const TitleContainer = styled(SafeAreaView)`
   margin-top: 20px;
-  justify-content: left;
+  justify-content: flex-start; /* Changed from 'left' to 'flex-start' */
   align-items: center;
   flex-direction: row;
 `;
