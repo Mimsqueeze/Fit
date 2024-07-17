@@ -3,6 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
+import { TouchableOpacity, View } from "react-native";
 
 import ProfileScreen from "./app/screens/ProfileScreen";
 import ExerciseScreen from "./app/screens/ExerciseScreen";
@@ -10,10 +11,18 @@ import HistoryScreen from "./app/screens/HistoryScreen";
 import TimerScreen from "./app/screens/TimerScreen";
 import TemplateDetailScreen from "./app/screens/TemplateDetailScreen";
 import WorkoutDetailScreen from "./app/screens/WorkoutDetailScreen";
+import CreateTemplateScreen from "./app/screens/CreateTemplateScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
+import styled from "styled-components/native";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
+
+export const SaveText = styled.Text`
+  font-size: 14px;
+  color: black;
+  font-weight: bold;
+`;
 
 function HomeTabs() {
   return (
@@ -83,6 +92,23 @@ export default function App() {
           name="WorkoutDetailScreen"
           component={WorkoutDetailScreen}
           options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="CreateTemplateScreen"
+          component={CreateTemplateScreen}
+          options={({ navigation }) => ({
+            headerTitle: "",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="close" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <SaveText>SAVE</SaveText>
+              </TouchableOpacity>
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
