@@ -2,6 +2,7 @@ import React from "react";
 import { SafeAreaView, ScrollView, Platform, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import { Header, SubHeader } from "../config/style";
+import { useNavigation } from "@react-navigation/native";
 import Exercise from "../components/Exercise";
 
 const exerciseData = require("../data/exerciseData.json");
@@ -13,11 +14,17 @@ const sortedExercises = exerciseData.sort((a, b) =>
 function ExerciseScreen() {
   let currentLetter = "";
 
+  const navigation = useNavigation();
+
+  const handleExercisePress = (exercise) => {
+    navigation.navigate("ExerciseDetailScreen", { exercise });
+  };
+
   return (
     <SafeContainer>
       <ScrollView>
         <Header>Exercises</Header>
-        {sortedExercises.map((exercise, index) => {
+        {sortedExercises.map((exercise) => {
           const firstLetter = exercise.name.charAt(0).toUpperCase();
           const showSubHeader = firstLetter !== currentLetter;
           if (showSubHeader) {
@@ -27,10 +34,11 @@ function ExerciseScreen() {
             <React.Fragment key={exercise.key}>
               {showSubHeader && <SubHeader>{firstLetter}</SubHeader>}
               <Exercise
-                name={exercise.name}
-                photo={exercise.photo}
-                description={exercise.description}
-                muscles={exercise.muscles}
+                name= {exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}
+                photo={exercise.gifUrl}
+                description={exercise.instructions}
+                muscles={exercise.bodyPart}
+                onPress={() => handleExercisePress(exercise)}
               />
             </React.Fragment>
           );

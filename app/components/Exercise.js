@@ -34,13 +34,14 @@ export const ExerciseText = styled.Text`
   margin-top: 8px;
 `;
 
-const Exercise = ({ name, muscles }) => (
-  <TouchableNativeFeedback>
+const Exercise = ({ name, muscles, onPress}) => {
+  return (<TouchableNativeFeedback onPress={onPress}>
     <ExerciseContainer>
       <ExerciseTitle>{name}</ExerciseTitle>
-      <ContentText>{muscles.join(", ")}</ContentText>
+      <ContentText>{muscles}</ContentText>
     </ExerciseContainer>
   </TouchableNativeFeedback>
-);
+  )
+};
 
 export default Exercise;
