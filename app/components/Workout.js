@@ -34,6 +34,7 @@ const WorkoutContent = styled.View`
 const FlexBox = styled(SafeAreaView)`
   flex: 1;
   justify-content: space-between;
+  align-items: center;
   flex-direction: row;
 `;
 
