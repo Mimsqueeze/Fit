@@ -12,6 +12,7 @@ import TimerScreen from "./app/screens/TimerScreen";
 import TemplateDetailScreen from "./app/screens/TemplateDetailScreen";
 import WorkoutDetailScreen from "./app/screens/WorkoutDetailScreen";
 import CreateTemplateScreen from "./app/screens/CreateTemplateScreen";
+import ExerciseDetailScreen from "./app/screens/ExerciseDetailScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import styled from "styled-components/native";
 
@@ -91,6 +92,11 @@ export default function App() {
         <Stack.Screen
           name="WorkoutDetailScreen"
           component={WorkoutDetailScreen}
+          options={{ headerTitle: "" }}
+        />
+        <Stack.Screen
+          name="ExerciseDetailScreen"
+          component={ExerciseDetailScreen}
           options={{ headerTitle: "" }}
         />
         <Stack.Screen
