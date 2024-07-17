@@ -6,6 +6,7 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  Image,
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
@@ -17,7 +18,9 @@ function ExerciseDetailScreen({ route }) {
       <FlexBox>
         <ScrollView>
           <Header>{exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, letter => letter.toUpperCase())}</Header>
-            <ContentText>{exercise.instructions.join("\n\n")}</ContentText>
+            <Instructions>
+              <ContentText>{exercise.instructions.join("\n\n")}</ContentText>
+            </Instructions>
         </ScrollView>
       </FlexBox>
     </SafeContainer>
@@ -39,6 +42,17 @@ export const SafeContainer = styled(SafeAreaView)`
 
 export const ButtonContainer = styled(View)`
   margin: 8px 0px;
+`;
+
+export const Instructions = styled(View)`
+  background-color: #fff;
+  padding: 16px;
+  margin-vertical: 8px;
+  border-radius: 8px;
+  shadow-color: #000;
+  shadow-opacity: 0.2;
+  shadow-radius: 8px;
+  elevation: 3;
 `;
 
 export default ExerciseDetailScreen;
