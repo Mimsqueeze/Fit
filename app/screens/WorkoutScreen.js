@@ -48,7 +48,7 @@ function WorkoutScreen() {
         <FlexBox>
           <SubHeader>MY TEMPLATES</SubHeader>
           <TouchableOpacity onPress={handleAddPress}>
-            <Ionicons name="add-outline" size={28} color="#666" />
+            <Ionicons name="add-outline" size={24} color="black" />
           </TouchableOpacity>
         </FlexBox>
         {templateData.map((workout) => (
