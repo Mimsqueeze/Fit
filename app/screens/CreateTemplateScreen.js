@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -11,25 +11,6 @@ import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
 
-const newTemplate = {
-  id: {},
-  title: "Pull",
-  content: [
-    {
-      name: "Pull Ups",
-      numSets: 3,
-      sets: [
-        { type: "working", lbs: 10, reps: 12, rir: 3 },
-        { type: "working", lbs: 10, reps: 12, rir: 2 },
-        { type: "working", lbs: 10, reps: 12, rir: 0 },
-      ],
-      muscles: ["Lats", "Biceps"],
-    },
-  ],
-  lastPerformed: "",
-  time: {},
-};
-
 const TemplateTitleInput = styled.TextInput`
   font-size: 18px;
   font-weight: bold;
@@ -39,24 +20,38 @@ const TemplateTitleInput = styled.TextInput`
 
 function CreateTemplateScreen() {
   const [title, setTitle] = useState("New Workout Template");
-  const [exercises, setExercises] = useState(newTemplate.content);
+  const [exercises, setExercises] = useState([]);
+  const [numExercises, setNumExercises] = useState(1);
 
   const addExercise = () => {
     const newExercise = {
+      id: numExercises,
       name: "New Exercise",
       numSets: 0,
       sets: [],
       muscles: [],
     };
     setExercises([...exercises, newExercise]);
+    setNumExercises(numExercises + 1); // Update numExercises in state
   };
 
   const handleRemoveExercise = (index) => {
-    console.log(index);
-    console.log(exercises[index]);
     const updatedExercises = exercises.filter((_, i) => i !== index);
     setExercises(updatedExercises);
   };
+
+  const handleUpdateSets = (index, updatedSets) => {
+    const updatedExercises = [...exercises];
+    updatedExercises[index].sets = updatedSets;
+    setExercises(updatedExercises);
+  };
+
+  // Debugging
+  // useEffect(() => {
+  //   // This effect will run after every render when count changes
+  //   console.log("Exercises updated:", exercises);
+  //   // Perform any action that depends on the updated state here
+  // }, [exercises]); // Dependency array ensures this effect runs only when count changes
 
   return (
     <SafeContainer>
@@ -75,11 +70,9 @@ function CreateTemplateScreen() {
         </TitleContainer>
         {exercises.map((exercise, index) => (
           <ExerciseItem
-            key={index}
-            name={exercise.name}
-            numSets={exercise.numSets}
-            sets={exercise.sets}
-            muscles={exercise.muscles}
+            key={exercise.id}
+            exercise={exercise}
+            onUpdateSets={(updatedSets) => handleUpdateSets(index, updatedSets)}
             onRemoveExercise={() => handleRemoveExercise(index)}
           />
         ))}
@@ -96,9 +89,10 @@ export const FlexBox = styled(SafeAreaView)`
   justify-content: space-between;
   flex-direction: column;
 `;
+
 export const TitleContainer = styled(SafeAreaView)`
   margin-top: 20px;
-  justify-content: flex-start; /* Changed from 'left' to 'flex-start' */
+  justify-content: flex-start;
   align-items: center;
   flex-direction: row;
 `;
@@ -117,13 +111,6 @@ export const ButtonContainer = styled(View)`
 export const DateTimeContainer = styled(SafeAreaView)`
   flex: 1;
   justify-content: space-between;
-  flex-direction: row;
-`;
-
-const TimeContainer = styled(SafeAreaView)`
-  flex: 1;
-  justify-content: flex-end;
-  align-items: center;
   flex-direction: row;
 `;
 

@@ -2,10 +2,9 @@ import React, { useState } from "react";
 import {
   View,
   TextInput,
-  TouchableNativeFeedback,
+  TouchableOpacity,
   Button,
   SafeAreaView,
-  TouchableOpacity,
 } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -53,18 +52,14 @@ const Column = styled.View`
 
 const EditableTextInput = styled.TextInput`
   text-align: center;
-  font-size: ${({ fontSize }) =>
-    fontSize || 12}px; /* Default font size is 12 */
+  font-size: ${({ fontSize }) => fontSize || 12}px;
   font-weight: bold;
-  color: ${({ color }) => color || "#000"}; /* Default color is black */
+  color: ${({ color }) => color || "#000"};
   background-color: ${({ isPrevious, isSet }) =>
-    isPrevious || isSet
-      ? "transparent"
-      : "#f0f0f0"}; /* Conditionally set background */
-  border: ${({ isPrevious }) =>
-    isPrevious ? "0px" : "1px solid #ccc"}; /* Conditionally set border */
+    isPrevious || isSet ? "transparent" : "#f0f0f0"};
+  border: ${({ isPrevious }) => (isPrevious ? "0px" : "1px solid #ccc")};
   margin: 0px 3px;
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 4px;
 `;
 
 const TitleContainer = styled(SafeAreaView)`
@@ -74,40 +69,46 @@ const TitleContainer = styled(SafeAreaView)`
   flex-direction: row;
 `;
 
-const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
-  const [editableSets, setEditableSets] = useState(sets);
+const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
+  const name = exercise.name;
+  const [editableSets, setEditableSets] = useState(exercise.sets);
 
   const handleLbsChange = (index, value) => {
     const updatedSets = [...editableSets];
     updatedSets[index] = { ...updatedSets[index], lbs: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const handleRepsChange = (index, value) => {
     const updatedSets = [...editableSets];
     updatedSets[index] = { ...updatedSets[index], reps: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const handleRirChange = (index, value) => {
     const updatedSets = [...editableSets];
     updatedSets[index] = { ...updatedSets[index], rir: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const addSet = () => {
     const newSet = {
-      type: "working", // Example default type
-      lbs: "", // Initial value for lbs
-      reps: "", // Initial value for reps
-      rir: "", // Initial value for rir
+      type: "working",
+      lbs: "",
+      reps: "",
+      rir: "",
     };
     setEditableSets([...editableSets, newSet]);
+    onUpdateSets([...editableSets, newSet]); // Update parent state
   };
 
   const removeSet = () => {
     if (editableSets.length > 0) {
       setEditableSets(editableSets.slice(0, -1));
+      onUpdateSets(editableSets.slice(0, -1)); // Update parent state
     }
   };
 
@@ -149,7 +150,7 @@ const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
               }
               editable={false}
               fontSize={14}
-              color="#2296f3" // Example of passing color prop
+              color="#2296f3"
               isSet
             />
           </Column>
@@ -162,8 +163,8 @@ const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
               }
               editable={false}
               fontSize={14}
-              color="#666" // Example of passing color prop
-              isPrevious // Set flag to conditionally style
+              color="#666"
+              isPrevious
             />
           </Column>
           <Column flex={2}>
@@ -172,7 +173,7 @@ const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
               onChangeText={(value) => handleLbsChange(index, value)}
               keyboardType="numeric"
               fontSize={16}
-              backgroundColor="#f0f0f0" // Example of passing background color prop
+              backgroundColor="#f0f0f0"
             />
           </Column>
           <Column flex={2}>
@@ -181,7 +182,7 @@ const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
               onChangeText={(value) => handleRepsChange(index, value)}
               keyboardType="numeric"
               fontSize={16}
-              backgroundColor="#f0f0f0" // Example of passing background color prop
+              backgroundColor="#f0f0f0"
             />
           </Column>
           <Column flex={1}>
@@ -190,7 +191,7 @@ const ExerciseItem = ({ name, numSets, sets, muscles, onRemoveExercise }) => {
               onChangeText={(value) => handleRirChange(index, value)}
               keyboardType="numeric"
               fontSize={16}
-              backgroundColor="#f0f0f0" // Example of passing background color prop
+              backgroundColor="#f0f0f0"
             />
           </Column>
         </SetRow>
