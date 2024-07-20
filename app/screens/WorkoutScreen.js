@@ -1,3 +1,4 @@
+// WorkoutScreen.js
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Platform,
@@ -116,6 +117,36 @@ function WorkoutScreen() {
     navigation.navigate("CreateTemplateScreen");
   };
 
+  const handleDeleteTemplate = async (id) => {
+    try {
+      const updatedTemplates = templateData.filter(
+        (template) => template.id !== id
+      );
+      setTemplateData(updatedTemplates);
+      await AsyncStorage.setItem(
+        "@templateData",
+        JSON.stringify(updatedTemplates)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRenameTemplate = async (id, newTitle) => {
+    try {
+      const updatedTemplates = templateData.map((template) =>
+        template.id === id ? { ...template, title: newTitle } : template
+      );
+      setTemplateData(updatedTemplates);
+      await AsyncStorage.setItem(
+        "@templateData",
+        JSON.stringify(updatedTemplates)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <SafeContainer>
       <ScrollView>
@@ -133,10 +164,13 @@ function WorkoutScreen() {
         {templateData.map((workout) => (
           <Template
             key={workout.id}
+            id={workout.id} // Pass the ID to Template
             title={workout.title}
             lastPerformed={workout.lastPerformed}
             content={workout.content}
             onPress={() => handleTemplatePress(workout)}
+            onDelete={handleDeleteTemplate} // Pass the delete handler
+            onRename={handleRenameTemplate} // Pass the rename handler
           />
         ))}
       </ScrollView>
