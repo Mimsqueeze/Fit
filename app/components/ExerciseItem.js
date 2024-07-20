@@ -1,7 +1,13 @@
 import React, { useState } from "react";
-import { View, TextInput, TouchableNativeFeedback, Button } from "react-native";
+import {
+  View,
+  TextInput,
+  TouchableOpacity,
+  Button,
+  SafeAreaView,
+} from "react-native";
 import styled from "styled-components/native";
-import { Header, SubHeader, ContentText } from "../config/style";
+import { Ionicons } from "@expo/vector-icons";
 
 const ExerciseItemContainer = styled.View`
   background-color: #fff;
@@ -46,141 +52,170 @@ const Column = styled.View`
 
 const EditableTextInput = styled.TextInput`
   text-align: center;
-  font-size: ${({ fontSize }) =>
-    fontSize || 12}px; /* Default font size is 12 */
+  font-size: ${({ fontSize }) => fontSize || 12}px;
   font-weight: bold;
-  color: ${({ color }) => color || "#000"}; /* Default color is black */
+  color: ${({ color }) => color || "#000"};
   background-color: ${({ isPrevious, isSet }) =>
-    isPrevious || isSet
-      ? "transparent"
-      : "#f0f0f0"}; /* Conditionally set background */
-  border: ${({ isPrevious }) =>
-    isPrevious ? "0px" : "1px solid #ccc"}; /* Conditionally set border */
+    isPrevious || isSet ? "transparent" : "#f0f0f0"};
+  border: ${({ isPrevious }) => (isPrevious ? "0px" : "1px solid #ccc")};
   margin: 0px 3px;
-  border-radius: 4px; /* Rounded corners */
+  border-radius: 4px;
 `;
 
-const ExerciseItem = ({ name, numSets, sets, muscles }) => {
-  const [editableSets, setEditableSets] = useState(sets);
+const TitleContainer = styled(SafeAreaView)`
+  margin-top: 20px;
+  justify-content: space-between;
+  align-items: center;
+  flex-direction: row;
+`;
+
+const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
+  const name = exercise.name;
+  const [editableSets, setEditableSets] = useState(exercise.sets);
 
   const handleLbsChange = (index, value) => {
     const updatedSets = [...editableSets];
-    updatedSets[index] = { ...editableSets[index], lbs: value };
+    updatedSets[index] = { ...updatedSets[index], lbs: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const handleRepsChange = (index, value) => {
     const updatedSets = [...editableSets];
-    updatedSets[index] = { ...editableSets[index], reps: value };
+    updatedSets[index] = { ...updatedSets[index], reps: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const handleRirChange = (index, value) => {
     const updatedSets = [...editableSets];
-    updatedSets[index] = { ...editableSets[index], rir: value };
+    updatedSets[index] = { ...updatedSets[index], rir: value };
     setEditableSets(updatedSets);
+    onUpdateSets(updatedSets); // Update parent state
   };
 
   const addSet = () => {
     const newSet = {
-      type: "working", // Example default type
-      lbs: "", // Initial value for lbs
-      reps: "", // Initial value for reps
-      rir: "", // Initial value for rir
+      type: "working",
+      lbs: "",
+      reps: "",
+      rir: "",
     };
     setEditableSets([...editableSets, newSet]);
+    onUpdateSets([...editableSets, newSet]); // Update parent state
+  };
+
+  const removeSet = () => {
+    if (editableSets.length > 0) {
+      setEditableSets(editableSets.slice(0, -1));
+      onUpdateSets(editableSets.slice(0, -1)); // Update parent state
+    }
   };
 
   return (
-    <TouchableNativeFeedback>
-      <ExerciseItemContainer>
+    <ExerciseItemContainer>
+      <TitleContainer>
         <ExerciseItemName>{name}</ExerciseItemName>
-        <HeaderRow>
+        <TouchableOpacity onPress={onRemoveExercise}>
+          <Ionicons name="trash-outline" size={20} color="#2296f3" />
+        </TouchableOpacity>
+      </TitleContainer>
+      <HeaderRow>
+        <Column flex={1}>
+          <ColumnText>SET</ColumnText>
+        </Column>
+        <Column flex={2}>
+          <ColumnText>PREVIOUS</ColumnText>
+        </Column>
+        <Column flex={2}>
+          <ColumnText>LBS</ColumnText>
+        </Column>
+        <Column flex={2}>
+          <ColumnText>REPS</ColumnText>
+        </Column>
+        <Column flex={1}>
+          <ColumnText>RIR</ColumnText>
+        </Column>
+      </HeaderRow>
+      {editableSets.map((set, index) => (
+        <SetRow key={index}>
           <Column flex={1}>
-            <ColumnText>SET</ColumnText>
+            <EditableTextInput
+              value={
+                set.type === "warmup"
+                  ? "W"
+                  : set.type === "working"
+                  ? (index + 1).toString()
+                  : "D"
+              }
+              editable={false}
+              fontSize={14}
+              color="#2296f3"
+              isSet
+            />
           </Column>
           <Column flex={2}>
-            <ColumnText>PREVIOUS</ColumnText>
+            <EditableTextInput
+              value={
+                set.previous
+                  ? `${set.previous.lbs} lbs × ${set.previous.reps}`
+                  : "N/A"
+              }
+              editable={false}
+              fontSize={14}
+              color="#666"
+              isPrevious
+            />
           </Column>
           <Column flex={2}>
-            <ColumnText>LBS</ColumnText>
+            <EditableTextInput
+              value={set.lbs.toString()}
+              onChangeText={(value) => handleLbsChange(index, value)}
+              keyboardType="numeric"
+              fontSize={16}
+              backgroundColor="#f0f0f0"
+            />
           </Column>
           <Column flex={2}>
-            <ColumnText>REPS</ColumnText>
+            <EditableTextInput
+              value={set.reps.toString()}
+              onChangeText={(value) => handleRepsChange(index, value)}
+              keyboardType="numeric"
+              fontSize={16}
+              backgroundColor="#f0f0f0"
+            />
           </Column>
           <Column flex={1}>
-            <ColumnText>RIR</ColumnText>
+            <EditableTextInput
+              value={set.rir.toString()}
+              onChangeText={(value) => handleRirChange(index, value)}
+              keyboardType="numeric"
+              fontSize={16}
+              backgroundColor="#f0f0f0"
+            />
           </Column>
-        </HeaderRow>
-        {editableSets.map((set, index) => (
-          <SetRow key={index}>
-            <Column flex={1}>
-              <EditableTextInput
-                value={
-                  set.type === "warmup"
-                    ? "W"
-                    : set.type === "working"
-                    ? (index + 1).toString()
-                    : "D"
-                }
-                editable={false}
-                fontSize={14}
-                color="#2296f3" // Example of passing color prop
-                isSet
-              />
-            </Column>
-            <Column flex={2}>
-              <EditableTextInput
-                value={
-                  set.previous
-                    ? `${set.previous.lbs} lbs × ${set.previous.reps}`
-                    : "N/A"
-                }
-                editable={false}
-                fontSize={14}
-                color="#666" // Example of passing color prop
-                isPrevious // Set flag to conditionally style
-              />
-            </Column>
-            <Column flex={2}>
-              <EditableTextInput
-                value={set.lbs.toString()}
-                onChangeText={(value) => handleLbsChange(index, value)}
-                keyboardType="numeric"
-                fontSize={16}
-                backgroundColor="#f0f0f0" // Example of passing background color prop
-              />
-            </Column>
-            <Column flex={2}>
-              <EditableTextInput
-                value={set.reps.toString()}
-                onChangeText={(value) => handleRepsChange(index, value)}
-                keyboardType="numeric"
-                fontSize={16}
-                backgroundColor="#f0f0f0" // Example of passing background color prop
-              />
-            </Column>
-            <Column flex={1}>
-              <EditableTextInput
-                value={set.rir.toString()}
-                onChangeText={(value) => handleRirChange(index, value)}
-                keyboardType="numeric"
-                fontSize={16}
-                backgroundColor="#f0f0f0" // Example of passing background color prop
-              />
-            </Column>
-          </SetRow>
-        ))}
+        </SetRow>
+      ))}
+      <ButtonRow>
+        <ButtonContainer>
+          <Button title="Remove Set" onPress={removeSet} />
+        </ButtonContainer>
         <ButtonContainer>
           <Button title="Add Set" onPress={addSet} />
         </ButtonContainer>
-      </ExerciseItemContainer>
-    </TouchableNativeFeedback>
+      </ButtonRow>
+    </ExerciseItemContainer>
   );
 };
 
+const ButtonRow = styled.View`
+  flex-direction: row;
+  justify-content: space-between;
+`;
+
 export const ButtonContainer = styled(View)`
-  margin: 8px 0px;
+  flex: 1;
+  margin: 8px 4px;
 `;
 
 export default ExerciseItem;

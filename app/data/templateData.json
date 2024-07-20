@@ -5,7 +5,6 @@
     "content": [
       {
         "name": "Bench Press",
-        "numSets": 3,
         "sets": [
           { "type": "warmup", "lbs": 50, "reps": 12, "rir": 4 },
           { "type": "working", "lbs": 50, "reps": 12, "rir": 3 },
@@ -15,7 +14,6 @@
       },
       {
         "name": "Overhead Press",
-        "numSets": 5,
         "sets": [
           { "type": "working", "lbs": 80, "reps": 10, "rir": 3 },
           { "type": "working", "lbs": 80, "reps": 10, "rir": 3 },
@@ -33,7 +31,6 @@
     "content": [
       {
         "name": "Pull Ups",
-        "numSets": 3,
         "sets": [
           { "type": "working", "lbs": 10, "reps": 12, "rir": 3 },
           { "type": "working", "lbs": 10, "reps": 12, "rir": 2 },
@@ -43,7 +40,6 @@
       },
       {
         "name": "Deadlift",
-        "numSets": 2,
         "sets": [
           { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },
           { "type": "working", "lbs": 225, "reps": 12, "rir": 3 },

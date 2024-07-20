@@ -25,12 +25,12 @@ const TemplateMovementName = styled.Text`
   font-weight: bold;
 `;
 
-const TemplateMovement = ({ name, numSets, muscles }) => {
+const TemplateMovement = ({ name, sets, muscles }) => {
   return (
     <TouchableNativeFeedback>
       <TemplateMovementContainer>
         <TemplateMovementName>
-          {numSets} x {name}
+          {sets.length} x {name}
         </TemplateMovementName>
         <ContentText>{muscles.join(", ")}</ContentText>
       </TemplateMovementContainer>

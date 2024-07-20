@@ -32,13 +32,13 @@ export const FlexBox = styled(SafeAreaView)`
   flex-direction: row;
 `;
 
-const WorkoutMovement = ({ name, numSets, sets, muscles }) => {
+const WorkoutMovement = ({ name, sets, muscles }) => {
   let setNumber = 1;
   return (
     <TouchableNativeFeedback>
       <WorkoutMovementContainer>
         <WorkoutMovementName>
-          {numSets} x {name}
+          {sets.length} x {name}
         </WorkoutMovementName>
         {sets.map((set, index) => (
           <FlexBox key={index}>
