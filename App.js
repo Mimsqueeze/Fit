@@ -3,7 +3,7 @@ import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
 import { Ionicons } from "@expo/vector-icons";
-import { TouchableOpacity, View } from "react-native";
+import { TouchableOpacity } from "react-native";
 
 import ProfileScreen from "./app/screens/ProfileScreen";
 import ExerciseScreen from "./app/screens/ExerciseScreen";
@@ -11,7 +11,9 @@ import HistoryScreen from "./app/screens/HistoryScreen";
 import TimerScreen from "./app/screens/TimerScreen";
 import TemplateDetailScreen from "./app/screens/TemplateDetailScreen";
 import WorkoutDetailScreen from "./app/screens/WorkoutDetailScreen";
-import CreateTemplateScreen from "./app/screens/CreateTemplateScreen";
+import CreateTemplateScreen, {
+  saveTemplate,
+} from "./app/screens/CreateTemplateScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import styled from "styled-components/native";
 
@@ -104,7 +106,11 @@ export default function App() {
               </TouchableOpacity>
             ),
             headerRight: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
+              <TouchableOpacity
+                onPress={() => {
+                  if (saveTemplate) saveTemplate();
+                }}
+              >
                 <SaveText>SAVE</SaveText>
               </TouchableOpacity>
             ),

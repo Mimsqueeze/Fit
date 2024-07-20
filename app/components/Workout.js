@@ -113,7 +113,7 @@ const Workout = ({ title, lastPerformed, time, content, onPress }) => {
           {content.map((item, index) => (
             <FlexBox key={index}>
               <ContentText>
-                {item.numSets} x {item.name}
+                {item.sets.length} x {item.name}
               </ContentText>
               <ContentText>{bestSet(item)}</ContentText>
             </FlexBox>

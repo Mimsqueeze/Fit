@@ -1,15 +1,10 @@
 import React, { useState, useEffect } from "react";
-import {
-  View,
-  TextInput,
-  TouchableOpacity,
-  Button,
-  ScrollView,
-} from "react-native";
+import { View, Button, ScrollView, TouchableOpacity } from "react-native";
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const TemplateTitleInput = styled.TextInput`
   font-size: 18px;
@@ -18,7 +13,9 @@ const TemplateTitleInput = styled.TextInput`
   flex: 1;
 `;
 
-function CreateTemplateScreen() {
+export let saveTemplate; // Declare the saveTemplate function
+
+function CreateTemplateScreen({ navigation }) {
   const [title, setTitle] = useState("New Workout Template");
   const [exercises, setExercises] = useState([]);
   const [numExercises, setNumExercises] = useState(1);
@@ -27,12 +24,11 @@ function CreateTemplateScreen() {
     const newExercise = {
       id: numExercises,
       name: "New Exercise",
-      numSets: 0,
       sets: [],
       muscles: [],
     };
     setExercises([...exercises, newExercise]);
-    setNumExercises(numExercises + 1); // Update numExercises in state
+    setNumExercises(numExercises + 1);
   };
 
   const handleRemoveExercise = (index) => {
@@ -46,12 +42,23 @@ function CreateTemplateScreen() {
     setExercises(updatedExercises);
   };
 
-  // Debugging
-  // useEffect(() => {
-  //   // This effect will run after every render when count changes
-  //   console.log("Exercises updated:", exercises);
-  //   // Perform any action that depends on the updated state here
-  // }, [exercises]); // Dependency array ensures this effect runs only when count changes
+  saveTemplate = async () => {
+    try {
+      const newTemplate = {
+        id: Date.now(),
+        title,
+        content: exercises,
+      };
+      const jsonValue = await AsyncStorage.getItem("@templateData");
+      const templates = jsonValue != null ? JSON.parse(jsonValue) : [];
+      templates.push(newTemplate);
+      await AsyncStorage.setItem("@templateData", JSON.stringify(templates));
+
+      navigation.goBack(); // Navigate back after saving
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
   return (
     <SafeContainer>

@@ -25,7 +25,7 @@ function TemplateDetailScreen({ route }) {
             <TemplateMovement
               key={index}
               name={movement.name}
-              numSets={movement.numSets}
+              sets={movement.sets}
               muscles={movement.muscles}
             />
           ))}
