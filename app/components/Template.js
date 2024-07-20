@@ -1,4 +1,3 @@
-// Template.js
 import React, { useState, useRef } from "react";
 import {
   Modal,
@@ -157,7 +156,7 @@ const Template = ({
               <MenuItem
                 onPress={() => {
                   setMenuVisible(false);
-                  onEdit();
+                  onEdit(id); // Pass the ID to onEdit
                 }}
               >
                 <MenuText>Edit</MenuText>

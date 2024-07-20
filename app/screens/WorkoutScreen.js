@@ -1,4 +1,3 @@
-// WorkoutScreen.js
 import React, { useState, useEffect, useCallback } from "react";
 import {
   Platform,
@@ -117,6 +116,11 @@ function WorkoutScreen() {
     navigation.navigate("CreateTemplateScreen");
   };
 
+  const handleEditTemplate = (id) => {
+    const template = templateData.find((template) => template.id === id);
+    navigation.navigate("CreateTemplateScreen", { template });
+  };
+
   const handleDeleteTemplate = async (id) => {
     try {
       const updatedTemplates = templateData.filter(
@@ -169,6 +173,7 @@ function WorkoutScreen() {
             lastPerformed={workout.lastPerformed}
             content={workout.content}
             onPress={() => handleTemplatePress(workout)}
+            onEdit={handleEditTemplate} // Pass the edit handler
             onDelete={handleDeleteTemplate} // Pass the delete handler
             onRename={handleRenameTemplate} // Pass the rename handler
           />

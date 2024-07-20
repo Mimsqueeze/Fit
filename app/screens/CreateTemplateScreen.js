@@ -15,10 +15,19 @@ const TemplateTitleInput = styled.TextInput`
 
 export let saveTemplate; // Declare the saveTemplate function
 
-function CreateTemplateScreen({ navigation }) {
+function CreateTemplateScreen({ route, navigation }) {
   const [title, setTitle] = useState("New Workout Template");
   const [exercises, setExercises] = useState([]);
   const [numExercises, setNumExercises] = useState(1);
+
+  useEffect(() => {
+    if (route.params?.template) {
+      const { template } = route.params;
+      setTitle(template.title);
+      setExercises(template.content);
+      setNumExercises(template.content.length + 1);
+    }
+  }, [route.params?.template]);
 
   const addExercise = () => {
     const newExercise = {
@@ -45,14 +54,25 @@ function CreateTemplateScreen({ navigation }) {
   saveTemplate = async () => {
     try {
       const newTemplate = {
-        id: Date.now(),
+        id: route.params?.template ? route.params.template.id : Date.now(),
         title,
         content: exercises,
       };
       const jsonValue = await AsyncStorage.getItem("@templateData");
       const templates = jsonValue != null ? JSON.parse(jsonValue) : [];
-      templates.push(newTemplate);
-      await AsyncStorage.setItem("@templateData", JSON.stringify(templates));
+
+      if (route.params?.template) {
+        const updatedTemplates = templates.map((template) =>
+          template.id === newTemplate.id ? newTemplate : template
+        );
+        await AsyncStorage.setItem(
+          "@templateData",
+          JSON.stringify(updatedTemplates)
+        );
+      } else {
+        templates.push(newTemplate);
+        await AsyncStorage.setItem("@templateData", JSON.stringify(templates));
+      }
 
       navigation.goBack(); // Navigate back after saving
     } catch (e) {
