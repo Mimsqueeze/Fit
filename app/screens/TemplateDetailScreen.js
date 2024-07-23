@@ -13,14 +13,17 @@ import TemplateMovement from "../components/TemplateMovement";
 
 function TemplateDetailScreen({ route }) {
   const { workout } = route.params;
+  const lastPerformedDays = daysAgo(workout.lastPerformed);
   return (
     <SafeContainer>
       <FlexBox>
         <ScrollView>
           <Header>{workout.title}</Header>
-          <ContentText>
-            Last performed: {daysAgo(workout.lastPerformed)} days ago
-          </ContentText>
+          {workout.lastPerformed !== undefined && (
+            <ContentText>
+              Last performed: {lastPerformedDays} days ago
+            </ContentText>
+          )}
           {workout.content.map((movement, index) => (
             <TemplateMovement
               key={index}

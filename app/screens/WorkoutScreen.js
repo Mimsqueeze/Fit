@@ -32,61 +32,7 @@ function WorkoutScreen() {
       if (jsonValue != null) {
         setTemplateData(JSON.parse(jsonValue));
       } else {
-        // If there is no data, initialize with some default templates
-        const defaultTemplates = [
-          {
-            id: 1,
-            title: "Push",
-            content: [
-              {
-                name: "Bench Press",
-                sets: [
-                  { type: "warmup", lbs: 50, reps: 12, rir: 4 },
-                  { type: "working", lbs: 50, reps: 12, rir: 3 },
-                  { type: "drop", lbs: 50, reps: 12, rir: 1 },
-                ],
-                muscles: ["Chest", "Triceps"],
-              },
-              {
-                name: "Overhead Press",
-                sets: [
-                  { type: "working", lbs: 80, reps: 10, rir: 3 },
-                  { type: "working", lbs: 80, reps: 10, rir: 3 },
-                  { type: "working", lbs: 80, reps: 10, rir: 5 },
-                ],
-                muscles: ["Front Delts", "Triceps"],
-              },
-            ],
-            lastPerformed: "2024-07-14T12:34:56",
-            time: 4020,
-          },
-          {
-            id: 2,
-            title: "Pull",
-            content: [
-              {
-                name: "Pull Ups",
-                sets: [
-                  { type: "working", lbs: 10, reps: 12, rir: 3 },
-                  { type: "working", lbs: 10, reps: 12, rir: 2 },
-                  { type: "working", lbs: 10, reps: 12, rir: 0 },
-                ],
-                muscles: ["Lats", "Biceps"],
-              },
-              {
-                name: "Deadlift",
-                sets: [
-                  { type: "working", lbs: 225, reps: 12, rir: 3 },
-                  { type: "working", lbs: 225, reps: 12, rir: 3 },
-                  { type: "working", lbs: 245, reps: 12, rir: 3 },
-                ],
-                muscles: ["Lower Back", "Quads", "Glutes"],
-              },
-            ],
-            lastPerformed: "2024-07-12T09:15:30",
-            time: 3080,
-          },
-        ];
+        const defaultTemplates = [];
         setTemplateData(defaultTemplates);
         await AsyncStorage.setItem(
           "@templateData",

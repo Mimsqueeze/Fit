@@ -21,9 +21,15 @@ function ExerciseSelectionScreen() {
     if (route.params?.fromTemplate) {
       const selectedExercise = {
         id: Date.now(),
-        name: exercise.name,
+        name: exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+          letter.toUpperCase()
+        ),
         sets: [],
-        muscles: [exercise.bodyPart],
+        muscles: [
+          exercise.bodyPart.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+            letter.toUpperCase()
+          ),
+        ],
       };
       navigation.navigate("CreateTemplateScreen", { selectedExercise });
     } else {
@@ -48,7 +54,10 @@ function ExerciseSelectionScreen() {
                 name={exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
                   letter.toUpperCase()
                 )}
-                muscles={exercise.bodyPart}
+                muscles={exercise.bodyPart.replace(
+                  /(^\w{1})|(\s+\w{1})/g,
+                  (letter) => letter.toUpperCase()
+                )}
                 onPress={() => handleExercisePress(exercise)}
               />
             </React.Fragment>

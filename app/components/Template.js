@@ -95,11 +95,12 @@ const Template = ({
   const ellipsisRef = useRef(null);
 
   const daysAgo = () => {
+    if (!lastPerformed) return null;
     const today = new Date();
     const performedDate = new Date(lastPerformed);
     const diffTime = Math.abs(today - performedDate);
     const diffDays = Math.ceil(diffTime / (1000 * 60 * 60 * 24));
-    return diffDays;
+    return isNaN(diffDays) ? null : diffDays;
   };
 
   const showMenu = () => {
@@ -119,6 +120,8 @@ const Template = ({
     onRename(id, newTitle);
   };
 
+  const lastPerformedDays = daysAgo();
+
   return (
     <TouchableNativeFeedback onPress={onPress}>
       <TemplateContainer>
@@ -128,7 +131,11 @@ const Template = ({
             <Ionicons name="ellipsis-vertical" size={20} color="#2296f3" />
           </TouchableOpacity>
         </TitleContainer>
-        <ContentText>Last performed: {daysAgo()} days ago</ContentText>
+        {lastPerformedDays !== null && (
+          <ContentText>
+            Last performed: {lastPerformedDays} days ago
+          </ContentText>
+        )}
         <TemplateContent>
           {content.map((item, index) => (
             <ContentText key={index}>
