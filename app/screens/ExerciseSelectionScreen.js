@@ -2,7 +2,7 @@ import React from "react";
 import { SafeAreaView, ScrollView, Platform, StatusBar } from "react-native";
 import styled from "styled-components/native";
 import { Header, SubHeader } from "../config/style";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useRoute } from "@react-navigation/native";
 import Exercise from "../components/Exercise";
 
 const exerciseData = require("../data/exerciseData.json");
@@ -11,13 +11,24 @@ const sortedExercises = exerciseData.sort((a, b) =>
   a.name.localeCompare(b.name)
 );
 
-function ExerciseScreen() {
+function ExerciseSelectionScreen() {
   let currentLetter = "";
 
   const navigation = useNavigation();
+  const route = useRoute();
 
   const handleExercisePress = (exercise) => {
-    navigation.navigate("ExerciseDetailScreen", { exercise });
+    if (route.params?.fromTemplate) {
+      const selectedExercise = {
+        id: Date.now(),
+        name: exercise.name,
+        sets: [],
+        muscles: [exercise.bodyPart],
+      };
+      navigation.navigate("CreateTemplateScreen", { selectedExercise });
+    } else {
+      navigation.navigate("ExerciseDetailScreen", { exercise });
+    }
   };
 
   return (
@@ -37,8 +48,6 @@ function ExerciseScreen() {
                 name={exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
                   letter.toUpperCase()
                 )}
-                photo={exercise.gifUrl}
-                description={exercise.instructions}
                 muscles={exercise.bodyPart}
                 onPress={() => handleExercisePress(exercise)}
               />
@@ -58,4 +67,4 @@ const SafeContainer = styled(SafeAreaView)`
   flex-direction: column;
 `;
 
-export default ExerciseScreen;
+export default ExerciseSelectionScreen;

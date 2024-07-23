@@ -27,17 +27,15 @@ function CreateTemplateScreen({ route, navigation }) {
       setExercises(template.content);
       setNumExercises(template.content.length + 1);
     }
-  }, [route.params?.template]);
+    if (route.params?.selectedExercise) {
+      const selectedExercise = route.params.selectedExercise;
+      setExercises([...exercises, selectedExercise]);
+      setNumExercises(numExercises + 1);
+    }
+  }, [route.params?.template, route.params?.selectedExercise]);
 
   const addExercise = () => {
-    const newExercise = {
-      id: numExercises,
-      name: "New Exercise",
-      sets: [],
-      muscles: [],
-    };
-    setExercises([...exercises, newExercise]);
-    setNumExercises(numExercises + 1);
+    navigation.navigate("ExerciseSelectionScreen", { fromTemplate: true });
   };
 
   const handleRemoveExercise = (index) => {

@@ -17,6 +17,7 @@ import CreateTemplateScreen, {
 import ExerciseDetailScreen from "./app/screens/ExerciseDetailScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import styled from "styled-components/native";
+import ExerciseSelectionScreen from "./app/screens/ExerciseSelectionScreen";
 
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
@@ -121,6 +122,11 @@ export default function App() {
               </TouchableOpacity>
             ),
           })}
+        />
+        <Stack.Screen
+          name="ExerciseSelectionScreen"
+          component={ExerciseSelectionScreen}
+          options={{ headerTitle: "" }}
         />
       </Stack.Navigator>
     </NavigationContainer>
