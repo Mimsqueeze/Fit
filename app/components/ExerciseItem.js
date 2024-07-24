@@ -63,7 +63,7 @@ const EditableTextInput = styled.TextInput`
 `;
 
 const TitleContainer = styled(SafeAreaView)`
-  margin-top: 20px;
+  margin-top: 8px;
   justify-content: space-between;
   align-items: center;
   flex-direction: row;

@@ -14,6 +14,9 @@ import WorkoutDetailScreen from "./app/screens/WorkoutDetailScreen";
 import CreateTemplateScreen, {
   saveTemplate,
 } from "./app/screens/CreateTemplateScreen";
+import OngoingWorkoutScreen, {
+  saveWorkout,
+} from "./app/screens/OngoingWorkoutScreen";
 import ExerciseDetailScreen from "./app/screens/ExerciseDetailScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import styled from "styled-components/native";
@@ -102,6 +105,12 @@ export default function App() {
           component={ExerciseDetailScreen}
           options={{ headerTitle: "" }}
         />
+
+        <Stack.Screen
+          name="ExerciseSelectionScreen"
+          component={ExerciseSelectionScreen}
+          options={{ headerTitle: "" }}
+        />
         <Stack.Screen
           name="CreateTemplateScreen"
           component={CreateTemplateScreen}
@@ -124,9 +133,25 @@ export default function App() {
           })}
         />
         <Stack.Screen
-          name="ExerciseSelectionScreen"
-          component={ExerciseSelectionScreen}
-          options={{ headerTitle: "" }}
+          name="OngoingWorkoutScreen"
+          component={OngoingWorkoutScreen}
+          options={({ navigation }) => ({
+            headerTitle: "",
+            headerLeft: () => (
+              <TouchableOpacity onPress={() => navigation.goBack()}>
+                <Ionicons name="chevron-down-outline" size={24} color="black" />
+              </TouchableOpacity>
+            ),
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  saveWorkout();
+                }}
+              >
+                <SaveText>FINISH</SaveText>
+              </TouchableOpacity>
+            ),
+          })}
         />
       </Stack.Navigator>
     </NavigationContainer>
