@@ -1,5 +1,14 @@
-import React, { useState, useEffect } from "react";
-import { View, Button, ScrollView, TouchableOpacity } from "react-native";
+import React, { useState, useRef, useEffect } from "react";
+import {
+  View,
+  Button,
+  ScrollView,
+  TouchableOpacity,
+  Modal,
+  TextInput,
+  Text,
+  TouchableNativeFeedback,
+} from "react-native";
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,6 +28,10 @@ function CreateTemplateScreen({ route, navigation }) {
   const [title, setTitle] = useState("New Workout Template");
   const [exercises, setExercises] = useState([]);
   const [numExercises, setNumExercises] = useState(1);
+  const [menuVisible, setMenuVisible] = useState(false);
+  const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
+  const ellipsisRef = useRef(null);
+  const titleInputRef = useRef(null); // Ref for the TemplateTitleInput
 
   useEffect(() => {
     if (route.params?.template) {
@@ -78,18 +91,33 @@ function CreateTemplateScreen({ route, navigation }) {
     }
   };
 
+  const showMenu = () => {
+    ellipsisRef.current.measure((fx, fy, width, height, px, py) => {
+      setMenuPosition({ x: px - 100, y: py - 20 });
+      setMenuVisible(true);
+    });
+  };
+
+  const handleRename = () => {
+    setMenuVisible(false);
+    setTimeout(() => {
+      titleInputRef.current.focus(); // Focus the input after modal is opened
+    }, 100); // Small delay to ensure the modal is fully open
+  };
+
   return (
     <SafeContainer>
       <ScrollView>
         <TitleContainer>
           <TemplateTitleInput
+            ref={titleInputRef} // Attach the ref
             value={title}
             onChangeText={setTitle}
             placeholder="Enter template name"
             numberOfLines={1}
             ellipsizeMode="tail"
           />
-          <TouchableOpacity>
+          <TouchableOpacity ref={ellipsisRef} onPress={showMenu}>
             <Ionicons name="ellipsis-vertical" size={20} color="#2296f3" />
           </TouchableOpacity>
         </TitleContainer>
@@ -105,38 +133,89 @@ function CreateTemplateScreen({ route, navigation }) {
           <Button title="ADD EXERCISE" onPress={addExercise} />
         </ButtonContainer>
       </ScrollView>
+      <Modal
+        transparent={true}
+        visible={menuVisible}
+        onRequestClose={() => setMenuVisible(false)}
+        animationType="fade"
+      >
+        <TouchableOpacity
+          style={{ flex: 1 }}
+          activeOpacity={0}
+          onPress={() => setMenuVisible(false)}
+        >
+          <MenuContainer
+            style={{
+              top: menuPosition.y,
+              left: menuPosition.x,
+            }}
+          >
+            <MenuItem onPress={handleRename}>
+              <MenuText>Rename</MenuText>
+            </MenuItem>
+          </MenuContainer>
+        </TouchableOpacity>
+      </Modal>
     </SafeContainer>
   );
 }
 
-export const FlexBox = styled(SafeAreaView)`
-  flex: 1;
-  justify-content: space-between;
-  flex-direction: column;
+const MenuContainer = styled.View`
+  background-color: white;
+  border-radius: 8px;
+  padding: 8px;
+  elevation: 4;
+  shadow-color: #000;
+  shadow-opacity: 0.2;
+  shadow-radius: 4px;
+  width: 30%;
 `;
 
-export const TitleContainer = styled(SafeAreaView)`
+const MenuItem = styled.TouchableOpacity`
+  padding-vertical: 5px;
+  padding-horizontal: 15px;
+`;
+
+const MenuText = styled.Text`
+  font-size: 16px;
+  font-weight: bold;
+`;
+
+const RenameModalContainer = styled.View`
+  flex: 1;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(0, 0, 0, 0.5);
+`;
+
+const RenameModalContent = styled.View`
+  background-color: white;
+  padding: 20px;
+  border-radius: 8px;
+  width: 60%;
+`;
+
+const RenameModalTitle = styled.Text`
+  font-size: 18px;
+  font-weight: bold;
+`;
+
+const TitleContainer = styled(SafeAreaView)`
   margin-top: 20px;
   justify-content: flex-start;
   align-items: center;
   flex-direction: row;
 `;
 
-export const SafeContainer = styled(SafeAreaView)`
+const SafeContainer = styled(SafeAreaView)`
   flex: 1;
   margin: 3px 15px;
   justify-content: space-between;
   flex-direction: column;
 `;
 
-export const ButtonContainer = styled(View)`
+const ButtonContainer = styled(View)`
   margin: 8px 0px;
-`;
-
-export const DateTimeContainer = styled(SafeAreaView)`
-  flex: 1;
-  justify-content: space-between;
-  flex-direction: row;
 `;
 
 export default CreateTemplateScreen;
