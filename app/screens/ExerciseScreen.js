@@ -1,5 +1,5 @@
-import React from "react";
-import { SafeAreaView, ScrollView, Platform, StatusBar } from "react-native";
+import React, { useState } from "react";
+import { SafeAreaView, ScrollView, Platform, StatusBar, TextInput } from "react-native";
 import styled from "styled-components/native";
 import { Header, SubHeader } from "../config/style";
 import { useNavigation } from "@react-navigation/native";
@@ -12,6 +12,7 @@ const sortedExercises = exerciseData.sort((a, b) =>
 );
 
 function ExerciseScreen() {
+  const [searchQuery, setSearchQuery] = useState("");
   let currentLetter = "";
 
   const navigation = useNavigation();
@@ -20,11 +21,21 @@ function ExerciseScreen() {
     navigation.navigate("ExerciseDetailScreen", { exercise });
   };
 
+  // Function to filter exercises based on search query
+  const filteredExercises = sortedExercises.filter(exercise =>
+    exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
+  );
+
   return (
     <SafeContainer>
       <ScrollView>
         <Header>Exercises</Header>
-        {sortedExercises.map((exercise, index) => {
+        <SearchBar
+          placeholder="Search exercises..."
+          value={searchQuery}
+          onChangeText={setSearchQuery}
+        />
+        {filteredExercises.map((exercise, index) => {
           const firstLetter = exercise.name.charAt(0).toUpperCase();
           const showSubHeader = firstLetter !== currentLetter;
           if (showSubHeader) {
@@ -56,6 +67,15 @@ const SafeContainer = styled(SafeAreaView)`
   margin: 15px;
   justify-content: space-between;
   flex-direction: column;
+`;
+
+const SearchBar = styled(TextInput)`
+  height: 40px;
+  border-color: #ccc;
+  border-width: 1px;
+  margin-bottom: 15px;
+  padding-left: 10px;
+  border-radius: 5px;
 `;
 
 export default ExerciseScreen;
