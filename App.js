@@ -31,6 +31,10 @@ export const SaveText = styled.Text`
   font-weight: bold;
 `;
 
+const screenOptions = {
+  animation: "none",
+};
+
 function HomeTabs() {
   return (
     <Tab.Navigator
@@ -84,7 +88,7 @@ function HomeTabs() {
 export default function App() {
   return (
     <NavigationContainer>
-      <Stack.Navigator>
+      <Stack.Navigator screenOptions={screenOptions}>
         <Stack.Screen
           name="Home"
           component={HomeTabs}
@@ -105,7 +109,6 @@ export default function App() {
           component={ExerciseDetailScreen}
           options={{ headerTitle: "" }}
         />
-
         <Stack.Screen
           name="ExerciseSelectionScreen"
           component={ExerciseSelectionScreen}
