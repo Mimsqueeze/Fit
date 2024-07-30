@@ -122,11 +122,6 @@ export default function App() {
           component={CreateTemplateScreen}
           options={({ navigation }) => ({
             headerTitle: "",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name="close" size={24} color="black" />
-              </TouchableOpacity>
-            ),
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => {
@@ -143,11 +138,6 @@ export default function App() {
           component={OngoingWorkoutScreen}
           options={({ navigation }) => ({
             headerTitle: "",
-            headerLeft: () => (
-              <TouchableOpacity onPress={() => navigation.goBack()}>
-                <Ionicons name="chevron-down-outline" size={24} color="black" />
-              </TouchableOpacity>
-            ),
             headerRight: () => (
               <TouchableOpacity
                 onPress={() => {

@@ -10,8 +10,13 @@ import {
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
 import TemplateMovement from "../components/TemplateMovement";
+import { useNavigation } from "@react-navigation/native";
 
 function TemplateDetailScreen({ route }) {
+  const navigation = useNavigation();
+  const handleStartWorkout = () => {
+    navigation.navigate("OngoingWorkoutScreen", { template: workout });
+  };
   const { workout } = route.params;
   const lastPerformedDays = daysAgo(workout.lastPerformed);
   return (
@@ -34,7 +39,7 @@ function TemplateDetailScreen({ route }) {
           ))}
         </ScrollView>
         <ButtonContainer>
-          <Button title="START WORKOUT" />
+          <Button title="START WORKOUT" onPress={handleStartWorkout} />
         </ButtonContainer>
       </FlexBox>
     </SafeContainer>

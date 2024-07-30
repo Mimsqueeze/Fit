@@ -25,7 +25,7 @@ const WorkoutTitleInput = styled.TextInput`
 export let saveWorkout; // Declare the saveWorkout function
 
 function OngoingWorkoutScreen({ route, navigation }) {
-  const [title, setTitle] = useState("Workout #");
+  const [title, setTitle] = useState("");
   const [exercises, setExercises] = useState([]);
   const [numExercises, setNumExercises] = useState(1);
   const [menuVisible, setMenuVisible] = useState(false);
@@ -33,34 +33,32 @@ function OngoingWorkoutScreen({ route, navigation }) {
   const ellipsisRef = useRef(null);
   const titleInputRef = useRef(null); // Ref for the WorkoutTitleInput
   const timeStarted = Date.now();
+
   useEffect(() => {
     if (route.params?.template) {
       const { template } = route.params;
       setTitle(template.title);
       setExercises(template.content);
       setNumExercises(template.content.length + 1);
-    }
-    if (route.params?.selectedExercise) {
+    } else if (route.params?.selectedExercise) {
       const selectedExercise = route.params.selectedExercise;
       setExercises([...exercises, selectedExercise]);
       setNumExercises(numExercises + 1);
+    } else {
+      const fetchWorkouts = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem("@workoutData");
+          if (jsonValue != null) {
+            setTitle("Workout #" + JSON.parse(jsonValue).length);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      };
+  
+      fetchWorkouts();
     }
   }, [route.params?.template, route.params?.selectedExercise]);
-
-  useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem("@workoutData");
-        if (jsonValue != null) {
-          setTitle("Workout #" + JSON.parse(jsonValue).length);
-        }
-      } catch (e) {
-        console.error(e);
-      }
-    };
-
-    fetchWorkouts();
-  }, []);
 
   const addExercise = () => {
     navigation.navigate("ExerciseSelectionScreen", { fromWorkout: true });
@@ -80,8 +78,8 @@ function OngoingWorkoutScreen({ route, navigation }) {
   saveWorkout = async () => {
     try {
       const newWorkout = {
-        id: route.params?.template ? route.params.template.id : Date.now(),
-        title,
+        id: Date.now(),
+        title: title,
         content: exercises,
         lastPerformed: Date.now(),
         time: (Date.now() - timeStarted) / 1000,
