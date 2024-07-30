@@ -20,7 +20,7 @@ import { Header } from "../config/style";
 const widgets = [
   { name: "Workouts Per Week", description: "Activity" },
   { name: "Weight", description: "Absolute" },
-  { name: "Personal Records", description: "Best Weights"}
+  { name: "Personal Records", description: "Best Weights" },
 ];
 
 const sections = [
@@ -28,15 +28,25 @@ const sections = [
     header: "Preferences",
     items: [
       { label: "Language", message: "We currently only support English" },
-      { label: "Measurement", message: "We currently only support metric system" },
+      {
+        label: "Measurement",
+        message: "We currently only support metric system",
+      },
       { label: "Theme", message: "We currently only support one theme" },
     ],
   },
   {
     header: "Help",
     items: [
-      { label: "FAQ", message: "Q. Where can I find support? \nA. You can find support below" },
-      { label: "Support", message: "For support, please contact us at support@example.com or call us at 123-456-7890." },
+      {
+        label: "FAQ",
+        message: "Q. Where can I find support? \nA. You can find support below",
+      },
+      {
+        label: "Support",
+        message:
+          "For support, please contact us at support@example.com or call us at 123-456-7890.",
+      },
     ],
   },
   {
@@ -123,7 +133,10 @@ const SettingsModal = ({ modalVisible, setModalVisible, onOptionPress }) => (
             <SectionBox key={index}>
               <SectionHeader>{header}</SectionHeader>
               {items.map((item, idx) => (
-                <OptionPressable key={idx} onPress={() => onOptionPress(item.label, item.message)}>
+                <OptionPressable
+                  key={idx}
+                  onPress={() => onOptionPress(item.label, item.message)}
+                >
                   <ItemText>{item.label}</ItemText>
                 </OptionPressable>
               ))}
@@ -171,8 +184,8 @@ const ProfileAction = styled.View`
   align-items: center;
   justify-content: center;
   position: left;
-  right: 16;
-  bottom: -15;
+  right: 16px;
+  bottom: -15px;
 `;
 
 const ProfileInfo = styled.View`
@@ -225,10 +238,6 @@ const ModalView = styled(View)`
   padding: 35px;
   align-items: center;
   shadow-color: #000;
-  shadow-offset: {
-    width: 0;
-    height: 2;
-  };
   shadow-opacity: 0.25;
   shadow-radius: 4px;
   elevation: 5;
