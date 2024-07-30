@@ -27,7 +27,7 @@ export let saveWorkout; // Declare the saveWorkout function
 function OngoingWorkoutScreen({ route, navigation }) {
   const [title, setTitle] = useState("");
   const [exercises, setExercises] = useState([]);
-  const [numExercises, setNumExercises] = useState(1);
+  const [numExercises, setNumExercises] = useState(0);
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const ellipsisRef = useRef(null);
@@ -39,23 +39,28 @@ function OngoingWorkoutScreen({ route, navigation }) {
       const { template } = route.params;
       setTitle(template.title);
       setExercises(template.content);
-      setNumExercises(template.content.length + 1);
+      setNumExercises(template.content.length);
     } else if (route.params?.selectedExercise) {
       const selectedExercise = route.params.selectedExercise;
       setExercises([...exercises, selectedExercise]);
-      setNumExercises(numExercises + 1);
+      setNumExercises(numExercises);
+    } else if (route.params?.workout) {
+      const workout = route.params.workout;
+      setTitle(workout.title);
+      setExercises(workout.content);
+      setNumExercises(workout.content.length);
     } else {
       const fetchWorkouts = async () => {
         try {
           const jsonValue = await AsyncStorage.getItem("@workoutData");
           if (jsonValue != null) {
-            setTitle("Workout #" + JSON.parse(jsonValue).length);
+            setTitle("Workout #" + (JSON.parse(jsonValue).length + 1));
           }
         } catch (e) {
           console.error(e);
         }
       };
-  
+
       fetchWorkouts();
     }
   }, [route.params?.template, route.params?.selectedExercise]);
@@ -76,23 +81,50 @@ function OngoingWorkoutScreen({ route, navigation }) {
   };
 
   saveWorkout = async () => {
-    try {
-      const newWorkout = {
-        id: Date.now(),
-        title: title,
-        content: exercises,
-        lastPerformed: Date.now(),
-        time: (Date.now() - timeStarted) / 1000,
-      };
-      const jsonValue = await AsyncStorage.getItem("@workoutData");
-      const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
+    if (route.params?.workout) {
+      try {
+        const oldWorkout = route.params.workout;
+        const newWorkout = {
+          id: oldWorkout.id,
+          title: title,
+          content: exercises,
+          lastPerformed: oldWorkout.lastPerformed,
+          time: oldWorkout.time,
+        };
+        const jsonValue = await AsyncStorage.getItem("@workoutData");
+        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
 
-      workouts.push(newWorkout);
-      await AsyncStorage.setItem("@workoutData", JSON.stringify(workouts));
+        const updatedWorkouts = workouts.map((workout) =>
+          workout.id === newWorkout.id ? newWorkout : workout
+        );
+        await AsyncStorage.setItem(
+          "@workoutData",
+          JSON.stringify(updatedWorkouts)
+        );
 
-      navigation.goBack(); // Navigate back after saving
-    } catch (e) {
-      console.error(e);
+        navigation.navigate(" History ");
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      try {
+        const newWorkout = {
+          id: Date.now(),
+          title: title,
+          content: exercises,
+          lastPerformed: Date.now(),
+          time: (Date.now() - timeStarted) / 1000,
+        };
+        const jsonValue = await AsyncStorage.getItem("@workoutData");
+        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+        workouts.push(newWorkout);
+        await AsyncStorage.setItem("@workoutData", JSON.stringify(workouts));
+
+        navigation.navigate(" History ");
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 

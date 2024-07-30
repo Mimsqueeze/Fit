@@ -52,6 +52,41 @@ function HistoryScreen() {
     navigation.navigate("WorkoutDetailScreen", { workout });
   };
 
+  const handleEditWorkout = (id) => {
+    const workout = workoutData.find((workout) => workout.id === id);
+    navigation.navigate("OngoingWorkoutScreen", { workout });
+  };
+
+  const handleDeleteWorkout = async (id) => {
+    try {
+      const updatedWorkouts = workoutData.filter(
+        (workout) => workout.id !== id
+      );
+      setWorkoutData(updatedWorkouts);
+      await AsyncStorage.setItem(
+        "@workoutData",
+        JSON.stringify(updatedWorkouts)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRenameWorkout = async (id, newTitle) => {
+    try {
+      const updatedWorkouts = workoutData.map((workout) =>
+        workout.id === id ? { ...workout, title: newTitle } : workout
+      );
+      setWorkoutData(updatedWorkouts);
+      await AsyncStorage.setItem(
+        "@workoutData",
+        JSON.stringify(updatedWorkouts)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   // Function to group workouts by month and handle the year display conditionally
   const groupWorkoutsByMonth = (data) => {
     const currentYear = new Date().getFullYear();
@@ -84,11 +119,15 @@ function HistoryScreen() {
             {groupedWorkouts[month].map((workout) => (
               <Workout
                 key={workout.id}
+                id={workout.id}
                 title={workout.title}
                 lastPerformed={workout.lastPerformed}
                 time={workout.time}
                 content={workout.content}
                 onPress={() => handleWorkoutPress(workout)}
+                onEdit={handleEditWorkout} // Pass the edit handler
+                onDelete={handleDeleteWorkout} // Pass the delete handler
+                onRename={handleRenameWorkout} // Pass the rename handler
               />
             ))}
           </View>
