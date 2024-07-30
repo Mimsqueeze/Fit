@@ -10,6 +10,7 @@ import {
   Text,
   Button,
   TouchableOpacity,
+  Alert,
 } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
@@ -19,35 +20,44 @@ import { Header } from "../config/style";
 const widgets = [
   { name: "Workouts Per Week", description: "Activity" },
   { name: "Weight", description: "Absolute" },
+  { name: "Personal Records", description: "Best Weights"}
 ];
 
 const sections = [
   {
     header: "Preferences",
     items: [
-      { label: "Language" },
-      { label: "Measurement" },
-      { label: "Theme" },
+      { label: "Language", message: "We currently only support English" },
+      { label: "Measurement", message: "We currently only support metric system" },
+      { label: "Theme", message: "We currently only support one theme" },
     ],
   },
   {
     header: "Help",
     items: [
-      { label: "FAQ" },
-      { label: "Support" },
+      { label: "FAQ", message: "Q. Where can I find support? \nA. You can find support below" },
+      { label: "Support", message: "For support, please contact us at support@example.com or call us at 123-456-7890." },
     ],
   },
   {
     header: "Contact",
     items: [
-      { label: "Email Us" },
-      { label: "Call Us" },
+      { label: "Email Us", message: "You can Email us at support@example.com" },
+      { label: "Call Us", message: "You can call us at 123-456-7890" },
     ],
   },
 ];
 
 function ProfileScreen(props) {
   const [modalVisible, setModalVisible] = useState(false);
+
+  const handleOptionPress = (label, message) => {
+    if (message) {
+      Alert.alert(label, message);
+    } else {
+      Alert.alert(`Pressed: ${label}`);
+    }
+  };
 
   return (
     <SafeContainer>
@@ -70,6 +80,7 @@ function ProfileScreen(props) {
       <SettingsModal
         modalVisible={modalVisible}
         setModalVisible={setModalVisible}
+        onOptionPress={handleOptionPress}
       />
     </SafeContainer>
   );
@@ -85,7 +96,7 @@ const ProfileSection = () => (
   </ProfilePressable>
 );
 
-const SettingsModal = ({ modalVisible, setModalVisible }) => (
+const SettingsModal = ({ modalVisible, setModalVisible, onOptionPress }) => (
   <Modal
     animationType="slide"
     transparent={true}
@@ -107,12 +118,12 @@ const SettingsModal = ({ modalVisible, setModalVisible }) => (
           <ProfileInfoModal>
             <Name>Name</Name>
           </ProfileInfoModal>
-        
+
           {sections.map(({ header, items }, index) => (
             <SectionBox key={index}>
               <SectionHeader>{header}</SectionHeader>
               {items.map((item, idx) => (
-                <OptionPressable key={idx} onPress={() => alert(`Pressed: ${item.label}`)}>
+                <OptionPressable key={idx} onPress={() => onOptionPress(item.label, item.message)}>
                   <ItemText>{item.label}</ItemText>
                 </OptionPressable>
               ))}
@@ -159,9 +170,9 @@ const ProfileAction = styled.View`
   border-radius: 9999px;
   align-items: center;
   justify-content: center;
-  position: absolute;
-  right: 0;
-  bottom: 0;
+  position: left;
+  right: 16;
+  bottom: -15;
 `;
 
 const ProfileInfo = styled.View`
@@ -174,6 +185,7 @@ const ProfileInfo = styled.View`
 const ProfileInfoModal = styled.View`
   margin: 20px;
   margin-top: 5px;
+  left: -20px;
 `;
 
 const Name = styled.Text`
@@ -203,7 +215,7 @@ const CenteredView = styled(View)`
   justify-content: center;
   align-items: center;
   margin-top: 22px;
-  background-color: rgba(0, 0, 0, 0.5); 
+  background-color: rgba(0, 0, 0, 0.5);
 `;
 
 const ModalView = styled(View)`
