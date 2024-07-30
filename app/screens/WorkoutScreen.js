@@ -62,6 +62,10 @@ function WorkoutScreen() {
     navigation.navigate("CreateTemplateScreen");
   };
 
+  const handleEmptyWorkoutPress = () => {
+    navigation.navigate("OngoingWorkoutScreen");
+  };
+
   const handleEditTemplate = (id) => {
     const template = templateData.find((template) => template.id === id);
     navigation.navigate("CreateTemplateScreen", { template });
@@ -103,7 +107,10 @@ function WorkoutScreen() {
         <Header>Workout</Header>
         <SubHeader>QUICK START</SubHeader>
         <ButtonContainer>
-          <Button title="START AN EMPTY WORKOUT" />
+          <Button
+            title="START AN EMPTY WORKOUT"
+            onPress={handleEmptyWorkoutPress}
+          />
         </ButtonContainer>
         <FlexBox>
           <SubHeader>MY TEMPLATES</SubHeader>

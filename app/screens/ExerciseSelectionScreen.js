@@ -18,22 +18,22 @@ function ExerciseSelectionScreen() {
   const route = useRoute();
 
   const handleExercisePress = (exercise) => {
-    if (route.params?.fromTemplate) {
-      const selectedExercise = {
-        id: Date.now(),
-        name: exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+    const selectedExercise = {
+      id: Date.now(),
+      name: exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+        letter.toUpperCase()
+      ),
+      sets: [],
+      muscles: [
+        exercise.bodyPart.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
           letter.toUpperCase()
         ),
-        sets: [],
-        muscles: [
-          exercise.bodyPart.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-            letter.toUpperCase()
-          ),
-        ],
-      };
+      ],
+    };
+    if (route.params?.fromTemplate) {
       navigation.navigate("CreateTemplateScreen", { selectedExercise });
-    } else {
-      navigation.navigate("ExerciseDetailScreen", { exercise });
+    } else if (route.params?.fromWorkout) {
+      navigation.navigate("OngoingWorkoutScreen", { selectedExercise });
     }
   };
 
@@ -70,7 +70,6 @@ function ExerciseSelectionScreen() {
 
 const SafeContainer = styled(SafeAreaView)`
   flex: 1;
-  padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
   margin: 15px;
   justify-content: space-between;
   flex-direction: column;

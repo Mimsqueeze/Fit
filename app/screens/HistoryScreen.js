@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useCallback } from "react";
 import {
   Platform,
   StatusBar,
@@ -9,7 +9,7 @@ import {
 import { Header, SubHeader } from "../config/style";
 import styled from "styled-components/native";
 import Workout from "../components/Workout";
-import { useNavigation } from "@react-navigation/native";
+import { useNavigation, useFocusEffect } from "@react-navigation/native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const FlexBox = styled(View)`
@@ -23,124 +23,68 @@ function HistoryScreen() {
   const [workoutData, setWorkoutData] = useState([]);
   const navigation = useNavigation();
 
-  useEffect(() => {
-    const fetchWorkouts = async () => {
-      try {
-        const jsonValue = await AsyncStorage.getItem("@workoutData");
-        if (jsonValue != null) {
-          setWorkoutData(JSON.parse(jsonValue));
-        } else {
-          // If there is no data, initialize with some default workouts
-          const defaultWorkouts = [
-            {
-              id: 1,
-              title: "Push",
-              content: [
-                {
-                  name: "Bench Press",
-                  numSets: 3,
-                  sets: [
-                    { type: "warmup", lbs: 50, reps: 12, rir: 4 },
-                    { type: "working", lbs: 50, reps: 12, rir: 3 },
-                    { type: "drop", lbs: 50, reps: 12, rir: 1 },
-                  ],
-                  muscles: ["Chest", "Triceps"],
-                },
-                {
-                  name: "Overhead Press",
-                  numSets: 5,
-                  sets: [
-                    { type: "working", lbs: 80, reps: 10, rir: 3 },
-                    { type: "working", lbs: 80, reps: 10, rir: 3 },
-                    { type: "working", lbs: 80, reps: 10, rir: 5 },
-                  ],
-                  muscles: ["Front Delts", "Triceps"],
-                },
-              ],
-              lastPerformed: "2024-07-14T12:34:56",
-              time: 4020,
-            },
-            {
-              id: 2,
-              title: "Pull",
-              content: [
-                {
-                  name: "Pull Ups",
-                  numSets: 3,
-                  sets: [
-                    { type: "working", lbs: 10, reps: 12, rir: 3 },
-                    { type: "working", lbs: 10, reps: 12, rir: 2 },
-                    { type: "working", lbs: 10, reps: 12, rir: 0 },
-                  ],
-                  muscles: ["Lats", "Biceps"],
-                },
-                {
-                  name: "Deadlift",
-                  numSets: 2,
-                  sets: [
-                    { type: "working", lbs: 225, reps: 12, rir: 3 },
-                    { type: "working", lbs: 225, reps: 12, rir: 3 },
-                    { type: "working", lbs: 245, reps: 12, rir: 3 },
-                  ],
-                  muscles: ["Lower Back", "Quads", "Glutes"],
-                },
-              ],
-              lastPerformed: "2024-07-12T09:15:30",
-              time: 3080,
-            },
-            {
-              id: 3,
-              title: "Legs",
-              content: [
-                {
-                  name: "Deadlift",
-                  numSets: 2,
-                  sets: [
-                    { type: "working", lbs: 225, reps: 12, rir: 3 },
-                    { type: "working", lbs: 225, reps: 12, rir: 3 },
-                    { type: "working", lbs: 245, reps: 12, rir: 3 },
-                  ],
-                  muscles: ["Lower Back", "Quads", "Glutes"],
-                },
-              ],
-              lastPerformed: "2024-06-12T09:15:30",
-              time: 3080,
-            },
-            {
-              id: 4,
-              title: "Full Body",
-              content: [
-                {
-                  name: "Push Ups",
-                  numSets: 3,
-                  sets: [
-                    { type: "working", lbs: 10, reps: 12, rir: 3 },
-                    { type: "working", lbs: 10, reps: 12, rir: 2 },
-                    { type: "working", lbs: 10, reps: 12, rir: 0 },
-                  ],
-                  muscles: ["Lats", "Biceps"],
-                },
-              ],
-              lastPerformed: "2023-03-12T09:15:30",
-              time: 3080,
-            },
-          ];
-          setWorkoutData(defaultWorkouts);
-          await AsyncStorage.setItem(
-            "@workoutData",
-            JSON.stringify(defaultWorkouts)
-          );
-        }
-      } catch (e) {
-        console.error(e);
+  const fetchWorkouts = async () => {
+    try {
+      const jsonValue = await AsyncStorage.getItem("@workoutData");
+      if (jsonValue != null) {
+        setWorkoutData(JSON.parse(jsonValue));
+      } else {
+        // If there is no data, initialize with some default workouts
+        const defaultWorkouts = [];
+        setWorkoutData(defaultWorkouts);
+        await AsyncStorage.setItem(
+          "@workoutData",
+          JSON.stringify(defaultWorkouts)
+        );
       }
-    };
+    } catch (e) {
+      console.error(e);
+    }
+  };
 
-    fetchWorkouts();
-  }, []);
+  useFocusEffect(
+    useCallback(() => {
+      fetchWorkouts();
+    }, [])
+  );
 
   const handleWorkoutPress = (workout) => {
     navigation.navigate("WorkoutDetailScreen", { workout });
+  };
+
+  const handleEditWorkout = (id) => {
+    const workout = workoutData.find((workout) => workout.id === id);
+    navigation.navigate("OngoingWorkoutScreen", { workout });
+  };
+
+  const handleDeleteWorkout = async (id) => {
+    try {
+      const updatedWorkouts = workoutData.filter(
+        (workout) => workout.id !== id
+      );
+      setWorkoutData(updatedWorkouts);
+      await AsyncStorage.setItem(
+        "@workoutData",
+        JSON.stringify(updatedWorkouts)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRenameWorkout = async (id, newTitle) => {
+    try {
+      const updatedWorkouts = workoutData.map((workout) =>
+        workout.id === id ? { ...workout, title: newTitle } : workout
+      );
+      setWorkoutData(updatedWorkouts);
+      await AsyncStorage.setItem(
+        "@workoutData",
+        JSON.stringify(updatedWorkouts)
+      );
+    } catch (e) {
+      console.error(e);
+    }
   };
 
   // Function to group workouts by month and handle the year display conditionally
@@ -175,11 +119,15 @@ function HistoryScreen() {
             {groupedWorkouts[month].map((workout) => (
               <Workout
                 key={workout.id}
+                id={workout.id}
                 title={workout.title}
                 lastPerformed={workout.lastPerformed}
                 time={workout.time}
                 content={workout.content}
                 onPress={() => handleWorkoutPress(workout)}
+                onEdit={handleEditWorkout} // Pass the edit handler
+                onDelete={handleDeleteWorkout} // Pass the delete handler
+                onRename={handleRenameWorkout} // Pass the rename handler
               />
             ))}
           </View>

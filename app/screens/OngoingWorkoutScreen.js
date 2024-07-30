@@ -15,40 +15,58 @@ import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-const TemplateTitleInput = styled.TextInput`
+const WorkoutTitleInput = styled.TextInput`
   font-size: 18px;
   font-weight: bold;
   margin-right: 8px;
   flex: 1;
 `;
 
-export let saveTemplate; // Declare the saveTemplate function
+export let saveWorkout; // Declare the saveWorkout function
 
-function CreateTemplateScreen({ route, navigation }) {
-  const [title, setTitle] = useState("New Workout Template");
+function OngoingWorkoutScreen({ route, navigation }) {
+  const [title, setTitle] = useState("");
   const [exercises, setExercises] = useState([]);
-  const [numExercises, setNumExercises] = useState(1);
+  const [numExercises, setNumExercises] = useState(0);
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const ellipsisRef = useRef(null);
-  const titleInputRef = useRef(null); // Ref for the TemplateTitleInput
+  const titleInputRef = useRef(null); // Ref for the WorkoutTitleInput
+  const timeStarted = Date.now();
 
   useEffect(() => {
     if (route.params?.template) {
       const { template } = route.params;
       setTitle(template.title);
       setExercises(template.content);
-      setNumExercises(template.content.length + 1);
-    }
-    if (route.params?.selectedExercise) {
+      setNumExercises(template.content.length);
+    } else if (route.params?.selectedExercise) {
       const selectedExercise = route.params.selectedExercise;
       setExercises([...exercises, selectedExercise]);
-      setNumExercises(numExercises + 1);
+      setNumExercises(numExercises);
+    } else if (route.params?.workout) {
+      const workout = route.params.workout;
+      setTitle(workout.title);
+      setExercises(workout.content);
+      setNumExercises(workout.content.length);
+    } else {
+      const fetchWorkouts = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem("@workoutData");
+          if (jsonValue != null) {
+            setTitle("Workout #" + (JSON.parse(jsonValue).length + 1));
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      };
+
+      fetchWorkouts();
     }
   }, [route.params?.template, route.params?.selectedExercise]);
 
   const addExercise = () => {
-    navigation.navigate("ExerciseSelectionScreen", { fromTemplate: true });
+    navigation.navigate("ExerciseSelectionScreen", { fromWorkout: true });
   };
 
   const handleRemoveExercise = (index) => {
@@ -62,32 +80,51 @@ function CreateTemplateScreen({ route, navigation }) {
     setExercises(updatedExercises);
   };
 
-  saveTemplate = async () => {
-    try {
-      const newTemplate = {
-        id: route.params?.template ? route.params.template.id : Date.now(),
-        title,
-        content: exercises,
-      };
-      const jsonValue = await AsyncStorage.getItem("@templateData");
-      const templates = jsonValue != null ? JSON.parse(jsonValue) : [];
+  saveWorkout = async () => {
+    if (route.params?.workout) {
+      try {
+        const oldWorkout = route.params.workout;
+        const newWorkout = {
+          id: oldWorkout.id,
+          title: title,
+          content: exercises,
+          lastPerformed: oldWorkout.lastPerformed,
+          time: oldWorkout.time,
+        };
+        const jsonValue = await AsyncStorage.getItem("@workoutData");
+        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
 
-      if (route.params?.template) {
-        const updatedTemplates = templates.map((template) =>
-          template.id === newTemplate.id ? newTemplate : template
+        const updatedWorkouts = workouts.map((workout) =>
+          workout.id === newWorkout.id ? newWorkout : workout
         );
         await AsyncStorage.setItem(
-          "@templateData",
-          JSON.stringify(updatedTemplates)
+          "@workoutData",
+          JSON.stringify(updatedWorkouts)
         );
-      } else {
-        templates.push(newTemplate);
-        await AsyncStorage.setItem("@templateData", JSON.stringify(templates));
-      }
 
-      navigation.goBack(); // Navigate back after saving
-    } catch (e) {
-      console.error(e);
+        navigation.navigate(" History ");
+      } catch (e) {
+        console.error(e);
+      }
+    } else {
+      try {
+        const newWorkout = {
+          id: Date.now(),
+          title: title,
+          content: exercises,
+          lastPerformed: Date.now(),
+          time: (Date.now() - timeStarted) / 1000,
+        };
+        const jsonValue = await AsyncStorage.getItem("@workoutData");
+        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+        workouts.push(newWorkout);
+        await AsyncStorage.setItem("@workoutData", JSON.stringify(workouts));
+
+        navigation.navigate(" History ");
+      } catch (e) {
+        console.error(e);
+      }
     }
   };
 
@@ -109,11 +146,11 @@ function CreateTemplateScreen({ route, navigation }) {
     <SafeContainer>
       <ScrollView>
         <TitleContainer>
-          <TemplateTitleInput
+          <WorkoutTitleInput
             ref={titleInputRef} // Attach the ref
             value={title}
             onChangeText={setTitle}
-            placeholder="Enter template name"
+            placeholder="Enter workout name"
             numberOfLines={1}
             ellipsizeMode="tail"
           />
@@ -218,4 +255,4 @@ const ButtonContainer = styled(View)`
   margin: 8px 0px;
 `;
 
-export default CreateTemplateScreen;
+export default OngoingWorkoutScreen;
