@@ -1,5 +1,11 @@
 import React, { useState } from "react";
-import { SafeAreaView, ScrollView, Platform, StatusBar, TextInput } from "react-native";
+import {
+  SafeAreaView,
+  ScrollView,
+  Platform,
+  StatusBar,
+  TextInput,
+} from "react-native";
 import styled from "styled-components/native";
 import { Header, SubHeader } from "../config/style";
 import { useNavigation } from "@react-navigation/native";
@@ -22,7 +28,7 @@ function ExerciseScreen() {
   };
 
   // Function to filter exercises based on search query
-  const filteredExercises = sortedExercises.filter(exercise =>
+  const filteredExercises = sortedExercises.filter((exercise) =>
     exercise.name.toLowerCase().includes(searchQuery.toLowerCase())
   );
 
@@ -73,7 +79,7 @@ const SearchBar = styled(TextInput)`
   height: 40px;
   border-color: #ccc;
   border-width: 1px;
-  margin-bottom: 15px;
+  margin-bottom: 10px;
   padding-left: 10px;
   border-radius: 5px;
 `;

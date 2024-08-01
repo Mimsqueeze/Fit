@@ -12,6 +12,7 @@ import {
   TouchableOpacity,
   Alert,
   TouchableNativeFeedback,
+  TouchableWithoutFeedback,
 } from "react-native";
 import { Header, SubHeader } from "../config/style";
 import styled from "styled-components/native";
@@ -209,7 +210,6 @@ function HistoryScreen() {
     </SafeContainer>
   );
 }
-
 const SettingsModal = ({ modalVisible, setModalVisible, onOptionPress }) => (
   <Modal
     animationType="fade"
@@ -217,27 +217,33 @@ const SettingsModal = ({ modalVisible, setModalVisible, onOptionPress }) => (
     visible={modalVisible}
     onRequestClose={() => setModalVisible(!modalVisible)}
   >
-    <CenteredView>
-      <ModalView>
-        <ScrollViewContainer>
-          <SettingsText>Settings</SettingsText>
-          {sections.map(({ header, items }, index) => (
-            <SectionBox key={index}>
-              <SectionHeader>{header}</SectionHeader>
-              {items.map((item, idx) => (
-                <OptionPressable
-                  key={idx}
-                  onPress={() => onOptionPress(item.label, item.message)}
-                >
-                  <ItemText>{item.label}</ItemText>
-                </OptionPressable>
+    <TouchableWithoutFeedback onPress={() => setModalVisible(false)}>
+      <CenteredView>
+        <TouchableWithoutFeedback>
+          <ModalView>
+            <ScrollViewContainer>
+              <SettingsText>Settings</SettingsText>
+              {sections.map(({ header, items }, index) => (
+                <SectionBox key={index}>
+                  <SectionHeader>{header}</SectionHeader>
+                  {items.map((item, idx) => (
+                    <OptionPressable
+                      key={idx}
+                      onPress={() => onOptionPress(item.label, item.message)}
+                    >
+                      <ItemText>{item.label}</ItemText>
+                    </OptionPressable>
+                  ))}
+                </SectionBox>
               ))}
-            </SectionBox>
-          ))}
-        </ScrollViewContainer>
-        <Button title="CLOSE" onPress={() => setModalVisible(!modalVisible)} />
-      </ModalView>
-    </CenteredView>
+            </ScrollViewContainer>
+            <Pressable onPress={() => setModalVisible(false)}>
+              <Button title="CLOSE" onPress={() => setModalVisible(false)} />
+            </Pressable>
+          </ModalView>
+        </TouchableWithoutFeedback>
+      </CenteredView>
+    </TouchableWithoutFeedback>
   </Modal>
 );
 
