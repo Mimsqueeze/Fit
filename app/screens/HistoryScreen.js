@@ -35,9 +35,9 @@ const sections = [
     items: [
       {
         label: "Units (kg/lbs)",
-        message: "We currently only support imperial system",
+        message: "Feature coming soon!",
       },
-      { label: "Theme", message: "We currently only support one theme" },
+      { label: "Theme", message: "Feature coming soon!" },
     ],
   },
   {
@@ -45,7 +45,7 @@ const sections = [
     items: [
       {
         label: "Email Us",
-        message: "You can Email us at support@example.com",
+        message: "Feature coming soon!",
       },
     ],
   },
