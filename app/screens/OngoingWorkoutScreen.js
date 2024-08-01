@@ -25,6 +25,9 @@ const WorkoutTitleInput = styled.TextInput`
 export let saveWorkout; // Declare the saveWorkout function
 
 function OngoingWorkoutScreen({ route, navigation }) {
+  const [id, setID] = useState(-1);
+  const [lastPerformed, setLastPerformed] = useState(-1);
+  const [time, setTime] = useState(-1);
   const [title, setTitle] = useState("");
   const [exercises, setExercises] = useState([]);
   const [numExercises, setNumExercises] = useState(0);
@@ -46,6 +49,9 @@ function OngoingWorkoutScreen({ route, navigation }) {
       setNumExercises(numExercises);
     } else if (route.params?.workout) {
       const workout = route.params.workout;
+      setID(workout.id);
+      setLastPerformed(workout.lastPerformed);
+      setTime(workout.time);
       setTitle(workout.title);
       setExercises(workout.content);
       setNumExercises(workout.content.length);
@@ -81,15 +87,14 @@ function OngoingWorkoutScreen({ route, navigation }) {
   };
 
   saveWorkout = async () => {
-    if (route.params?.workout) {
+    if (id != -1) {
       try {
-        const oldWorkout = route.params.workout;
         const newWorkout = {
-          id: oldWorkout.id,
+          id: id,
           title: title,
           content: exercises,
-          lastPerformed: oldWorkout.lastPerformed,
-          time: oldWorkout.time,
+          lastPerformed: lastPerformed,
+          time: time,
         };
         const jsonValue = await AsyncStorage.getItem("@workoutData");
         const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];

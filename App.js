@@ -41,29 +41,21 @@ function HomeTabs() {
       screenOptions={({ route }) => ({
         tabBarIcon: ({ color, focused, size }) => {
           let iconName;
-          if (route.name === " Profile ") {
-            iconName = focused ? "person-circle" : "person-circle-outline";
-          } else if (route.name === " History ") {
+          if (route.name === " History ") {
             iconName = focused ? "bookmarks" : "bookmarks-outline";
           } else if (route.name === " Workout ") {
             iconName = focused ? "add-circle" : "add-circle-outline";
           } else if (route.name === " Exercise ") {
             iconName = focused ? "barbell" : "barbell-outline";
-          } else if (route.name === " Timer ") {
-            iconName = focused ? "timer" : "timer-outline";
           }
           return <Ionicons name={iconName} size={size} color={color} />;
-        }, tabBarLabelStyle: {
+        },
+        tabBarLabelStyle: {
           fontSize: 12, // Adjust font size if needed
-          overflow: 'visible',
+          overflow: "visible",
         },
       })}
     >
-      <Tab.Screen
-        name=" Profile "
-        component={ProfileScreen}
-        options={{ headerShown: false }}
-      />
       <Tab.Screen
         name=" History "
         component={HistoryScreen}
@@ -77,11 +69,6 @@ function HomeTabs() {
       <Tab.Screen
         name=" Exercise "
         component={ExerciseScreen}
-        options={{ headerShown: false }}
-      />
-      <Tab.Screen
-        name=" Timer "
-        component={TimerScreen}
         options={{ headerShown: false }}
       />
     </Tab.Navigator>
