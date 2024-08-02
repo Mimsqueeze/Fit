@@ -99,15 +99,25 @@ function ExerciseDetailScreen({ route, navigation }) {
           </NameContainer>
           <SubHeader>TARGET MUSCLES</SubHeader>
           <ContentBox>
-            <ContentText>
-              {muscles.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+            <ContentTextInput
+              value={muscles.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
                 letter.toUpperCase()
               )}
-            </ContentText>
+              onChangeText={setMuscles}
+              placeholder="Enter muscle categories"
+              numberOfLines={1}
+              ellipsizeMode="tail"
+            ></ContentTextInput>
           </ContentBox>
           <SubHeader>INSTRUCTIONS</SubHeader>
           <ContentBox>
-            <ContentText>{instructions.join("\n\n")}</ContentText>
+            <ContentTextInput
+              value={instructions}
+              onChangeText={setInstructions}
+              placeholder="Enter instructions (optional)"
+              numberOfLines={1}
+              ellipsizeMode="none"
+            ></ContentTextInput>
           </ContentBox>
         </ScrollView>
       </FlexBox>
@@ -197,6 +207,12 @@ const ExerciseNameInput = styled.TextInput`
   font-weight: bold;
   margin-right: 8px;
   flex: 1;
+`;
+
+export const ContentTextInput = styled.TextInput`
+  font-size: 14px;
+  color: #666;
+  font-weight: bold;
 `;
 
 export default ExerciseDetailScreen;
