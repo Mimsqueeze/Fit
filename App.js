@@ -17,7 +17,9 @@ import CreateTemplateScreen, {
 import OngoingWorkoutScreen, {
   saveWorkout,
 } from "./app/screens/OngoingWorkoutScreen";
-import ExerciseDetailScreen from "./app/screens/ExerciseDetailScreen";
+import ExerciseDetailScreen, {
+  saveExercise,
+} from "./app/screens/ExerciseDetailScreen";
 import WorkoutScreen from "./app/screens/WorkoutScreen";
 import styled from "styled-components/native";
 import ExerciseSelectionScreen from "./app/screens/ExerciseSelectionScreen";
@@ -97,7 +99,18 @@ export default function App() {
         <Stack.Screen
           name="ExerciseDetailScreen"
           component={ExerciseDetailScreen}
-          options={{ headerTitle: "" }}
+          options={({ navigation }) => ({
+            headerTitle: "",
+            headerRight: () => (
+              <TouchableOpacity
+                onPress={() => {
+                  saveExercise();
+                }}
+              >
+                <SaveText>SAVE</SaveText>
+              </TouchableOpacity>
+            ),
+          })}
         />
         <Stack.Screen
           name="ExerciseSelectionScreen"

@@ -1,50 +1,100 @@
 [
   {
-    "bodyPart": "waist",
-    "equipment": "body weight",
-    "gifUrl": "https://v2.exercisedb.io/image/8Nceu9MlUqErRX",
-    "id": "0001",
-    "name": "3/4 sit-up",
-    "target": "abs",
-    "secondaryMuscles": ["hip flexors", "lower back"],
-    "instructions": [
-      "Lie flat on your back with your knees bent and feet flat on the ground.",
-      "Place your hands behind your head with your elbows pointing outwards.",
-      "Engaging your abs, slowly lift your upper body off the ground, curling forward until your torso is at a 45-degree angle.",
-      "Pause for a moment at the top, then slowly lower your upper body back down to the starting position.",
-      "Repeat for the desired number of repetitions."
-    ]
+    "id": 1,
+    "name": "Squat (Barbell)",
+    "muscles": "Quads, Glutes",
+    "instructions": "Instructions go here"
+
   },
   {
-    "bodyPart": "waist",
-    "equipment": "body weight",
-    "gifUrl": "https://v2.exercisedb.io/image/K7Kw-4MlkW9EPR",
-    "id": "0002",
-    "name": "45° side bend",
-    "target": "abs",
-    "secondaryMuscles": ["obliques"],
-    "instructions": [
-      "Stand with your feet shoulder-width apart and your arms extended straight down by your sides.",
-      "Keeping your back straight and your core engaged, slowly bend your torso to one side, lowering your hand towards your knee.",
-      "Pause for a moment at the bottom, then slowly return to the starting position.",
-      "Repeat on the other side.",
-      "Continue alternating sides for the desired number of repetitions."
-    ]
+    "id": 2,
+    "name": "Bench Press (Barbell)",
+    "muscles": "Pecs, Triceps",
+    "instructions": "Instructions go here"
+
   },
   {
-    "bodyPart": "waist",
-    "equipment": "body weight",
-    "gifUrl": "https://v2.exercisedb.io/image/PfcOWhXSbJPKPi",
-    "id": "0003",
-    "name": "air bike",
-    "target": "abs",
-    "secondaryMuscles": ["hip flexors"],
-    "instructions": [
-      "Lie flat on your back with your hands placed behind your head.",
-      "Lift your legs off the ground and bend your knees at a 90-degree angle.",
-      "Bring your right elbow towards your left knee while simultaneously straightening your right leg.",
-      "Return to the starting position and repeat the movement on the opposite side, bringing your left elbow towards your right knee while straightening your left leg.",
-      "Continue alternating sides in a pedaling motion for the desired number of repetitions."
-    ]
+    "id": 3,
+    "name": "Deadlift (Barbell)",
+    "muscles": "Quads, Glutes, Hamstrings",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 4,
+    "name": "Seated Leg Curl (Machine)",
+    "muscles": "Hamstrings",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 5,
+    "name": "Leg Extension (Machine)",
+    "muscles": "Quads",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 6,
+    "name": "Standing Calf Raise (Smith Machine)",
+    "muscles": "Calves",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 7,
+    "name": "Pull Up (Bodyweight)",
+    "muscles": "Lats, Biceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 8,
+    "name": "Seated Row (Cable)",
+    "muscles": "Traps, Lats, Biceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 9,
+    "name": "Reverse Fly (Cable)",
+    "muscles": "Rear Delts",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 10,
+    "name": "Bicep Curl (Dumbbell)",
+    "muscles": "Biceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 11,
+    "name": "Hammer Curl (Dumbbell)",
+    "muscles": "Biceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 12,
+    "name": "Overhead Press (Barbell)",
+    "muscles": "Front Delts, Triceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 13,
+    "name": "Chest Fly (Machine)",
+    "muscles": "Pecs",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 14,
+    "name": "Tricep Extension (Cable)",
+    "muscles": "Triceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 15,
+    "name": "Tricep Pushdown (Cable)",
+    "muscles": "Triceps",
+    "instructions": "Instructions go here"
+  },
+  {
+    "id": 16,
+    "name": "Laterial Raise (Cable)",
+    "muscles": "Side Delts",
+    "instructions": "Instructions go here"
   }
 ]
