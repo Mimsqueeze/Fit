@@ -63,20 +63,50 @@ function ExerciseScreen() {
     }, [])
   );
 
+  const handleDeleteExercise = async (id) => {
+    try {
+      const updatedExercises = exerciseData.filter(
+        (exercise) => exercise.id !== id
+      );
+      setExerciseData(updatedExercises);
+      await AsyncStorage.setItem(
+        "@exerciseData",
+        JSON.stringify(updatedExercises)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
+  const handleRenameExercise = async (id, newName) => {
+    try {
+      const updatedExercises = exerciseData.map((exercise) =>
+        exercise.id === id ? { ...exercise, name: newName } : exercise
+      );
+      setExerciseData(updatedExercises);
+      await AsyncStorage.setItem(
+        "@exerciseData",
+        JSON.stringify(updatedExercises)
+      );
+    } catch (e) {
+      console.error(e);
+    }
+  };
+
   return (
     <SafeContainer>
+      <TopBar>
+        <Header>Exercises</Header>
+        <TouchableNativeFeedback onPress={handleNewExercisePress}>
+          <Ionicons name="add-outline" size={24} color="black" />
+        </TouchableNativeFeedback>
+      </TopBar>
+      <SearchBar
+        placeholder="Search exercises..."
+        value={searchQuery}
+        onChangeText={setSearchQuery}
+      />
       <ScrollView>
-        <TopBar>
-          <Header>Exercises</Header>
-          <TouchableNativeFeedback onPress={handleNewExercisePress}>
-            <Ionicons name="add-outline" size={24} color="black" />
-          </TouchableNativeFeedback>
-        </TopBar>
-        <SearchBar
-          placeholder="Search exercises..."
-          value={searchQuery}
-          onChangeText={setSearchQuery}
-        />
         {filteredExercises.map((exercise, index) => {
           const firstLetter = exercise.name.charAt(0).toUpperCase();
           const showSubHeader = firstLetter !== currentLetter;
@@ -89,6 +119,9 @@ function ExerciseScreen() {
               <Exercise
                 exercise={exercise}
                 onPress={() => handleExercisePress(exercise)}
+                onEdit={() => handleExercisePress(exercise)} // Pass the edit handler
+                onDelete={handleDeleteExercise} // Pass the delete handler
+                onRename={handleRenameExercise} // Pass the rename handler
               />
             </React.Fragment>
           );

@@ -44,10 +44,7 @@ function ExerciseDetailScreen({ route, navigation }) {
     } else {
       const fetchExercises = async () => {
         try {
-          const jsonValue = await AsyncStorage.getItem("@exerciseData");
-          if (jsonValue != null) {
-            setID(JSON.parse(jsonValue).length + 1);
-          }
+          setID(Date.now());
         } catch (e) {
           console.error(e);
         }
@@ -81,6 +78,7 @@ function ExerciseDetailScreen({ route, navigation }) {
       const jsonValue = await AsyncStorage.getItem("@exerciseData");
       const exercises = jsonValue != null ? JSON.parse(jsonValue) : [];
 
+      console.log(newExercise);
       if (route.params?.exercise) {
         const updatedExercises = exercises.map((exercise) =>
           exercise.id === newExercise.id ? newExercise : exercise
