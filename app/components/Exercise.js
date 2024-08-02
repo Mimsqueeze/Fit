@@ -34,17 +34,17 @@ export const ExerciseText = styled.Text`
   margin-top: 8px;
 `;
 
-const Exercise = ({ name, muscles, onPress }) => {
+const Exercise = ({ exercise, onPress }) => {
   return (
     <TouchableNativeFeedback onPress={onPress}>
       <ExerciseContainer>
         <ExerciseTitle>
-          {name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+          {exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
             letter.toUpperCase()
           )}
         </ExerciseTitle>
         <ContentText>
-          {muscles.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+          {exercise.muscles.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
             letter.toUpperCase()
           )}
         </ContentText>
