@@ -1,4 +1,4 @@
-import { React, useState, useRef } from "react";
+import { React, useState, useRef, useEffect } from "react";
 import { View, Text } from "react-native";
 
 import styled from "styled-components/native";
@@ -17,23 +17,45 @@ import { Ionicons } from "@expo/vector-icons";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
 export let saveExercise; // Declare the saveExercise function
-function ExerciseDetailScreen({ route, navigation }) {
-  const { exercise } = route.params;
 
+function ExerciseDetailScreen({ route, navigation }) {
   const [menuVisible, setMenuVisible] = useState(false);
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
 
-  const id = exercise.id;
-  const [name, setName] = useState(
-    exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
-      letter.toUpperCase()
-    )
-  );
-  const [instructions, setInstructions] = useState(exercise.instructions);
-  const [muscles, setMuscles] = useState(exercise.muscles);
+  const [id, setID] = useState("");
+  const [name, setName] = useState("");
+  const [instructions, setInstructions] = useState("");
+  const [muscles, setMuscles] = useState("");
 
   const ellipsisRef = useRef(null);
   const nameInputRef = useRef(null); // Ref for the WorkoutTitleInput
+
+  useEffect(() => {
+    if (route.params?.exercise) {
+      const { exercise } = route.params;
+      setID(exercise.id);
+      setName(
+        exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
+          letter.toUpperCase()
+        )
+      );
+      setInstructions(exercise.instructions);
+      setMuscles(exercise.muscles);
+    } else {
+      const fetchExercises = async () => {
+        try {
+          const jsonValue = await AsyncStorage.getItem("@exerciseData");
+          if (jsonValue != null) {
+            setID(JSON.parse(jsonValue).length + 1);
+          }
+        } catch (e) {
+          console.error(e);
+        }
+      };
+
+      fetchExercises();
+    }
+  }, [route.params?.exercise]);
 
   const handleRename = () => {
     setMenuVisible(false);

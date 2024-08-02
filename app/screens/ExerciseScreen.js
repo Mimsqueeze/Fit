@@ -25,6 +25,10 @@ function ExerciseScreen() {
     navigation.navigate("ExerciseDetailScreen", { exercise });
   };
 
+  const handleNewExercisePress = () => {
+    navigation.navigate("ExerciseDetailScreen");
+  };
+
   const sortedExercises = exerciseData.sort((a, b) =>
     a.name.localeCompare(b.name)
   );
@@ -64,7 +68,7 @@ function ExerciseScreen() {
       <ScrollView>
         <TopBar>
           <Header>Exercises</Header>
-          <TouchableNativeFeedback onPress={() => {}}>
+          <TouchableNativeFeedback onPress={handleNewExercisePress}>
             <Ionicons name="add-outline" size={24} color="black" />
           </TouchableNativeFeedback>
         </TopBar>
