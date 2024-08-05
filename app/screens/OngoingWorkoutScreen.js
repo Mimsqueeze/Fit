@@ -40,7 +40,22 @@ function OngoingWorkoutScreen({ route, navigation }) {
   useEffect(() => {
     if (route.params?.template) {
       const { template } = route.params;
-      setTitle(template.title);
+      if (template.title === "") {
+        const fetchWorkouts = async () => {
+          try {
+            const jsonValue = await AsyncStorage.getItem("@workoutData");
+            if (jsonValue != null) {
+              setTitle("Workout #" + (JSON.parse(jsonValue).length + 1));
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        };
+
+        fetchWorkouts();
+      } else {
+        setTitle(template.title);
+      }
       setExercises(template.content);
       setNumExercises(template.content.length);
     } else if (route.params?.selectedExercise) {
