@@ -1,4 +1,4 @@
-import { React, useState, useContext } from "react";
+import { React, useState, useContext, useEffect } from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createBottomTabNavigator } from "@react-navigation/bottom-tabs";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -17,6 +17,7 @@ import CreateTemplateScreen, {
 } from "./app/screens/CreateTemplateScreen";
 import OngoingWorkoutScreen, {
   saveWorkout,
+  back,
 } from "./app/screens/OngoingWorkoutScreen";
 import ExerciseDetailScreen, {
   saveExercise,
@@ -25,6 +26,8 @@ import WorkoutScreen from "./app/screens/WorkoutScreen";
 import ExerciseSelectionScreen from "./app/screens/ExerciseSelectionScreen";
 import OngoingContextProvider from "./app/contexts/OngoingWorkoutContext";
 import { OngoingContext } from "./app/contexts/OngoingWorkoutContext";
+import { Header, SubHeader } from "./app/config/style";
+
 const Tab = createBottomTabNavigator();
 const Stack = createNativeStackNavigator();
 
@@ -38,11 +41,14 @@ const BottomContainer = styled.View`
   flex-direction: column;
 `;
 
-const OngoingWorkoutContainer = styled.View`
+const OngoingWorkoutContainer = styled.TouchableOpacity`
   height: 60px;
-  background-color: gray;
+  background-color: #fff;
+  border-bottom-width: 0.5px; /* Set the border width on the bottom */
+  border-bottom-color: gray; /* Set the border color on the bottom */
   align-items: center;
   justify-content: center;
+  flex-direction: column;
 `;
 const TabBarContainer = styled.View`
   flex-direction: row;
@@ -61,6 +67,54 @@ const TabLabel = styled.Text`
   color: ${(props) => (props.focused ? "dodgerblue" : "gray")};
 `;
 
+const OngoingWorkoutText = styled.Text`
+  font-size: 20px;
+  color: black;
+  font-weight: bold;
+  flex: 1;
+`;
+
+const Stopwatch = ({ ongoingWorkout }) => {
+  const [elapsedTime, setElapsedTime] = useState(0);
+  // The formatTime function
+  const formatTime = (milliseconds) => {
+    const totalSeconds = Math.floor(milliseconds / 1000);
+    const hours = Math.floor(totalSeconds / 3600);
+    const minutes = Math.floor((totalSeconds % 3600) / 60);
+    const seconds = totalSeconds % 60;
+
+    const formattedHours = String(hours).padStart(2, "0");
+    const formattedMinutes = String(minutes).padStart(2, "0");
+    const formattedSeconds = String(seconds).padStart(2, "0");
+
+    return `${formattedHours}:${formattedMinutes}:${formattedSeconds}`;
+  };
+  useEffect(() => {
+    // Calculate the initial elapsed time
+    const initialElapsedTime = Date.now() - ongoingWorkout.timeStarted;
+    setElapsedTime(initialElapsedTime);
+
+    // Set up an interval to update the elapsed time every second
+    const intervalId = setInterval(() => {
+      setElapsedTime(Date.now() - ongoingWorkout.timeStarted);
+    }, 1000);
+
+    // Clean up the interval on component unmount
+    return () => clearInterval(intervalId);
+  }, [ongoingWorkout.timeStarted]);
+
+  // Format the elapsed time
+  const formattedTime = formatTime(elapsedTime);
+
+  return <SubHeader>{formattedTime}</SubHeader>;
+};
+
+const MinimizeButton = ({ onPress }) => (
+  <TouchableOpacity onPress={onPress}>
+    <Ionicons name="chevron-down-outline" size={24} color="black" />
+  </TouchableOpacity>
+);
+
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
   console.log(useContext(OngoingContext));
@@ -68,7 +122,8 @@ const CustomTabBar = ({ state, descriptors, navigation }) => {
     <BottomContainer>
       {ongoing ? (
         <OngoingWorkoutContainer>
-          <Text>{ongoingWorkout.title}</Text>
+          <OngoingWorkoutText>{ongoingWorkout.title}</OngoingWorkoutText>
+          <Stopwatch ongoingWorkout={ongoingWorkout} />
         </OngoingWorkoutContainer>
       ) : null}
       <TabBarContainer>
@@ -208,6 +263,13 @@ export default function App() {
             component={OngoingWorkoutScreen}
             options={({ navigation }) => ({
               headerTitle: "",
+              headerLeft: () => (
+                <MinimizeButton
+                  onPress={() => {
+                    back();
+                  }}
+                />
+              ),
               headerRight: () => (
                 <TouchableOpacity
                   onPress={() => {

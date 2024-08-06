@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect, useContext } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import {
   View,
   Button,
@@ -15,6 +21,7 @@ import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { OngoingContext } from "../contexts/OngoingWorkoutContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 const WorkoutTitleInput = styled.TextInput`
   font-size: 18px;
@@ -24,6 +31,7 @@ const WorkoutTitleInput = styled.TextInput`
 `;
 
 export let saveWorkout; // Declare the saveWorkout function
+export let back;
 
 function OngoingWorkoutScreen({ route, navigation }) {
   const [id, setID] = useState(-1);
@@ -87,14 +95,6 @@ function OngoingWorkoutScreen({ route, navigation }) {
 
       fetchWorkouts();
     }
-
-    updateOngoing(true, {
-      id: id,
-      title: title,
-      content: exercises,
-      lastPerformed: lastPerformed,
-      time: time,
-    });
   }, [route.params?.template, route.params?.selectedExercise]);
 
   const addExercise = () => {
@@ -112,6 +112,10 @@ function OngoingWorkoutScreen({ route, navigation }) {
     setExercises(updatedExercises);
   };
 
+  back = async () => {
+    updateOngoing(true, { title: title, timeStarted: timeStarted });
+    navigation.navigate(" History ");
+  };
   saveWorkout = async () => {
     if (id != -1) {
       try {
