@@ -1,4 +1,4 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, { useState, useRef, useEffect, useContext } from "react";
 import {
   View,
   Button,
@@ -14,6 +14,7 @@ import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OngoingContext } from "../contexts/OngoingWorkoutContext";
 
 const WorkoutTitleInput = styled.TextInput`
   font-size: 18px;
@@ -36,6 +37,8 @@ function OngoingWorkoutScreen({ route, navigation }) {
   const ellipsisRef = useRef(null);
   const titleInputRef = useRef(null); // Ref for the WorkoutTitleInput
   const timeStarted = Date.now();
+
+  const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
 
   useEffect(() => {
     if (route.params?.template) {
@@ -84,6 +87,14 @@ function OngoingWorkoutScreen({ route, navigation }) {
 
       fetchWorkouts();
     }
+
+    updateOngoing(true, {
+      id: id,
+      title: title,
+      content: exercises,
+      lastPerformed: lastPerformed,
+      time: time,
+    });
   }, [route.params?.template, route.params?.selectedExercise]);
 
   const addExercise = () => {
@@ -146,6 +157,7 @@ function OngoingWorkoutScreen({ route, navigation }) {
         console.error(e);
       }
     }
+    updateOngoing(false, null);
   };
 
   const showMenu = () => {

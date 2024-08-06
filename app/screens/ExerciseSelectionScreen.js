@@ -125,6 +125,7 @@ const TopBar = styled.View`
 const SafeContainer = styled(SafeAreaView)`
   flex: 1;
   margin: 15px;
+  margin-bottom: 0px;
   justify-content: space-between;
   flex-direction: column;
 `;
