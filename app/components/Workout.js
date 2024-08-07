@@ -30,7 +30,7 @@ const WorkoutTitle = styled.Text`
 `;
 
 const WorkoutContent = styled.View`
-  margin-top: 8px;
+  margin-top: 4px;
 `;
 
 const FlexBox = styled(SafeAreaView)`
@@ -99,17 +99,12 @@ export const ExerciseText = styled.Text`
   margin-top: 8px;
 `;
 
-const Workout = ({
-  id,
-  title,
-  lastPerformed,
-  time,
-  content,
-  onPress,
-  onEdit,
-  onRename,
-  onDelete,
-}) => {
+const Workout = ({ workout, onPress, onEdit, onRename, onDelete }) => {
+  const id = workout.id;
+  const title = workout.title;
+  const lastPerformed = workout.lastPerformed;
+  const time = workout.time;
+  const content = workout.content;
   const [menuVisible, setMenuVisible] = useState(false);
   const [renameVisible, setRenameVisible] = useState(false);
   const [newTitle, setNewTitle] = useState(title);
@@ -194,16 +189,14 @@ const Workout = ({
           <ExerciseText>Exercise</ExerciseText>
           <ExerciseText>Best set</ExerciseText>
         </FlexBox>
-        <WorkoutContent>
-          {content.map((item, index) => (
-            <FlexBox key={index}>
-              <ContentText>
-                {item.sets.length} x {item.name}
-              </ContentText>
-              <ContentText>{bestSet(item)}</ContentText>
-            </FlexBox>
-          ))}
-        </WorkoutContent>
+        {content.map((item, index) => (
+          <FlexBox key={index}>
+            <ContentText>
+              {item.sets.length} x {item.name}
+            </ContentText>
+            <ContentText>{bestSet(item)}</ContentText>
+          </FlexBox>
+        ))}
         <Modal
           transparent={true}
           visible={menuVisible}

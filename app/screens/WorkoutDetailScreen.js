@@ -11,9 +11,16 @@ import {
 import { Header, SubHeader, ContentText } from "../config/style";
 import WorkoutMovement from "../components/WorkoutMovement";
 import { Ionicons } from "@expo/vector-icons";
+import { useNavigation } from "@react-navigation/native";
 
 function WorkoutDetailScreen({ route }) {
   const { workout } = route.params;
+  const navigation = useNavigation();
+  const handlePerformAgain = () => {
+    let newWorkout = workout;
+    newWorkout.title = "";
+    navigation.navigate("OngoingWorkoutScreen", { template: newWorkout });
+  };
   return (
     <SafeContainer>
       <FlexBox>
@@ -37,7 +44,7 @@ function WorkoutDetailScreen({ route }) {
           ))}
         </ScrollView>
         <ButtonContainer>
-          <Button title="START WORKOUT" />
+          <Button title="PERFORM AGAIN" onPress={handlePerformAgain} />
         </ButtonContainer>
       </FlexBox>
     </SafeContainer>
