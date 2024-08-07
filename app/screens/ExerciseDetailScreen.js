@@ -77,8 +77,6 @@ function ExerciseDetailScreen({ route, navigation }) {
       };
       const jsonValue = await AsyncStorage.getItem("@exerciseData");
       const exercises = jsonValue != null ? JSON.parse(jsonValue) : [];
-
-      console.log(newExercise);
       if (route.params?.exercise) {
         const updatedExercises = exercises.map((exercise) =>
           exercise.id === newExercise.id ? newExercise : exercise

@@ -28,7 +28,6 @@ function ExerciseSelectionScreen() {
   const route = useRoute();
 
   const handleExercisePress = (exercise) => {
-    console.log("hi");
     const selectedExercise = {
       id: Date.now(),
       name: exercise.name.replace(/(^\w{1})|(\s+\w{1})/g, (letter) =>
@@ -126,6 +125,7 @@ const TopBar = styled.View`
 const SafeContainer = styled(SafeAreaView)`
   flex: 1;
   margin: 15px;
+  margin-bottom: 0px;
   justify-content: space-between;
   flex-direction: column;
 `;

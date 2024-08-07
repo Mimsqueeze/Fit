@@ -141,6 +141,7 @@ const SafeContainer = styled(SafeAreaView)`
   flex: 1;
   padding-top: ${Platform.OS === "android" ? StatusBar.currentHeight : 0}px;
   margin: 15px;
+  margin-bottom: 0px;
   justify-content: space-between;
   flex-direction: column;
 `;

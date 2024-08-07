@@ -1,4 +1,10 @@
-import React, { useState, useRef, useEffect } from "react";
+import React, {
+  useState,
+  useRef,
+  useEffect,
+  useContext,
+  useCallback,
+} from "react";
 import {
   View,
   Button,
@@ -14,6 +20,8 @@ import { SafeAreaView } from "react-native";
 import { Ionicons } from "@expo/vector-icons";
 import ExerciseItem from "../components/ExerciseItem";
 import AsyncStorage from "@react-native-async-storage/async-storage";
+import { OngoingContext } from "../contexts/OngoingWorkoutContext";
+import { useFocusEffect } from "@react-navigation/native";
 
 const WorkoutTitleInput = styled.TextInput`
   font-size: 18px;
@@ -23,6 +31,7 @@ const WorkoutTitleInput = styled.TextInput`
 `;
 
 export let saveWorkout; // Declare the saveWorkout function
+export let back;
 
 function OngoingWorkoutScreen({ route, navigation }) {
   const [id, setID] = useState(-1);
@@ -35,12 +44,29 @@ function OngoingWorkoutScreen({ route, navigation }) {
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const ellipsisRef = useRef(null);
   const titleInputRef = useRef(null); // Ref for the WorkoutTitleInput
-  const timeStarted = Date.now();
+  const [timeStarted, setTimeStarted] = useState(Date.now());
+
+  const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
 
   useEffect(() => {
     if (route.params?.template) {
       const { template } = route.params;
-      setTitle(template.title);
+      if (template.title === "") {
+        const fetchWorkouts = async () => {
+          try {
+            const jsonValue = await AsyncStorage.getItem("@workoutData");
+            if (jsonValue != null) {
+              setTitle("Workout #" + (JSON.parse(jsonValue).length + 1));
+            }
+          } catch (e) {
+            console.error(e);
+          }
+        };
+
+        fetchWorkouts();
+      } else {
+        setTitle(template.title);
+      }
       setExercises(template.content);
       setNumExercises(template.content.length);
     } else if (route.params?.selectedExercise) {
@@ -54,6 +80,15 @@ function OngoingWorkoutScreen({ route, navigation }) {
       setTime(workout.time);
       setTitle(workout.title);
       setExercises(workout.content);
+      setNumExercises(workout.content.length);
+    } else if (route.params?.ongoing) {
+      const workout = route.params.ongoing;
+      setID(workout.id);
+      setLastPerformed(workout.lastPerformed);
+      setTime(workout.time);
+      setTitle(workout.title);
+      setExercises(workout.content);
+      setTimeStarted(workout.timeStarted);
       setNumExercises(workout.content.length);
     } else {
       const fetchWorkouts = async () => {
@@ -86,6 +121,17 @@ function OngoingWorkoutScreen({ route, navigation }) {
     setExercises(updatedExercises);
   };
 
+  back = async () => {
+    updateOngoing(true, {
+      id: id,
+      title: title,
+      content: exercises,
+      lastPerformed: lastPerformed,
+      time: time,
+      timeStarted: timeStarted,
+    });
+    navigation.navigate(" History ");
+  };
   saveWorkout = async () => {
     if (id != -1) {
       try {
@@ -131,6 +177,7 @@ function OngoingWorkoutScreen({ route, navigation }) {
         console.error(e);
       }
     }
+    updateOngoing(false, null);
   };
 
   const showMenu = () => {
