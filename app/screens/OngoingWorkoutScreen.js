@@ -44,7 +44,7 @@ function OngoingWorkoutScreen({ route, navigation }) {
   const [menuPosition, setMenuPosition] = useState({ x: 0, y: 0 });
   const ellipsisRef = useRef(null);
   const titleInputRef = useRef(null); // Ref for the WorkoutTitleInput
-  const timeStarted = Date.now();
+  const [timeStarted, setTimeStarted] = useState(Date.now());
 
   const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
 
@@ -81,6 +81,15 @@ function OngoingWorkoutScreen({ route, navigation }) {
       setTitle(workout.title);
       setExercises(workout.content);
       setNumExercises(workout.content.length);
+    } else if (route.params?.ongoing) {
+      const workout = route.params.ongoing;
+      setID(workout.id);
+      setLastPerformed(workout.lastPerformed);
+      setTime(workout.time);
+      setTitle(workout.title);
+      setExercises(workout.content);
+      setTimeStarted(workout.timeStarted);
+      setNumExercises(workout.content.length);
     } else {
       const fetchWorkouts = async () => {
         try {
@@ -113,7 +122,14 @@ function OngoingWorkoutScreen({ route, navigation }) {
   };
 
   back = async () => {
-    updateOngoing(true, { title: title, timeStarted: timeStarted });
+    updateOngoing(true, {
+      id: id,
+      title: title,
+      content: exercises,
+      lastPerformed: lastPerformed,
+      time: time,
+      timeStarted: timeStarted,
+    });
     navigation.navigate(" History ");
   };
   saveWorkout = async () => {

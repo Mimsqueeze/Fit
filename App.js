@@ -118,10 +118,14 @@ const MinimizeButton = ({ onPress }) => (
 const CustomTabBar = ({ state, descriptors, navigation }) => {
   const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
   console.log(useContext(OngoingContext));
+  const handleContinueWorkout = () => {
+    navigation.navigate("OngoingWorkoutScreen", { ongoing: ongoingWorkout });
+  };
+
   return (
     <BottomContainer>
       {ongoing ? (
-        <OngoingWorkoutContainer>
+        <OngoingWorkoutContainer onPress={handleContinueWorkout}>
           <OngoingWorkoutText>{ongoingWorkout.title}</OngoingWorkoutText>
           <Stopwatch ongoingWorkout={ongoingWorkout} />
         </OngoingWorkoutContainer>
