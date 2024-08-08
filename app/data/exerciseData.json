@@ -3,98 +3,112 @@
     "id": 1,
     "name": "Squat (Barbell)",
     "muscles": "Quads, Glutes",
-    "instructions": "Instructions go here"
-
+    "instructions": "Instructions go here",
+    "previous": [{"lbs": "", "reps": "", "rir": "", "type": "working"}, {"lbs": "", "reps": "", "rir": "", "type": "working"}]
   },
   {
     "id": 2,
     "name": "Bench Press (Barbell)",
     "muscles": "Pecs, Triceps",
-    "instructions": "Instructions go here"
-
+    "instructions": "Instructions go here",
+  "previous": []
   },
   {
     "id": 3,
     "name": "Deadlift (Barbell)",
     "muscles": "Quads, Glutes, Hamstrings",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 4,
     "name": "Seated Leg Curl (Machine)",
     "muscles": "Hamstrings",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 5,
     "name": "Leg Extension (Machine)",
     "muscles": "Quads",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 6,
     "name": "Standing Calf Raise (Smith Machine)",
     "muscles": "Calves",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 7,
     "name": "Pull Up (Bodyweight)",
     "muscles": "Lats, Biceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 8,
     "name": "Seated Row (Cable)",
     "muscles": "Traps, Lats, Biceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 9,
     "name": "Reverse Fly (Cable)",
     "muscles": "Rear Delts",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 10,
     "name": "Bicep Curl (Dumbbell)",
     "muscles": "Biceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 11,
     "name": "Hammer Curl (Dumbbell)",
     "muscles": "Biceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 12,
     "name": "Overhead Press (Barbell)",
     "muscles": "Front Delts, Triceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 13,
     "name": "Chest Fly (Machine)",
     "muscles": "Pecs",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 14,
     "name": "Tricep Extension (Cable)",
     "muscles": "Triceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 15,
     "name": "Tricep Pushdown (Cable)",
     "muscles": "Triceps",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   },
   {
     "id": 16,
     "name": "Laterial Raise (Cable)",
     "muscles": "Side Delts",
-    "instructions": "Instructions go here"
+    "instructions": "Instructions go here",
+    "previous": []
   }
 ]
