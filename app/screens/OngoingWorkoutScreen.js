@@ -132,51 +132,72 @@ function OngoingWorkoutScreen({ route, navigation }) {
     });
     navigation.navigate(" History ");
   };
+
   saveWorkout = async () => {
-    if (id != -1) {
-      try {
-        const newWorkout = {
-          id: id,
-          title: title,
-          content: exercises,
-          lastPerformed: lastPerformed,
-          time: time,
-        };
-        const jsonValue = await AsyncStorage.getItem("@workoutData");
-        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
+    console.log(exercises);
 
-        const updatedWorkouts = workouts.map((workout) =>
-          workout.id === newWorkout.id ? newWorkout : workout
+    try {
+      // Fetch existing exercise data
+      const jsonValue = await AsyncStorage.getItem("@exerciseData");
+      const exerciseData = jsonValue != null ? JSON.parse(jsonValue) : [];
+
+      // Update the `previous` field for matching exercises
+      const updatedExerciseData = exerciseData.map((exercise) => {
+        // Find the exercise in `exercises` to update
+        const updatedExercise = exercises.find(
+          (ex) => ex.name === exercise.name
         );
-        await AsyncStorage.setItem(
-          "@workoutData",
-          JSON.stringify(updatedWorkouts)
-        );
+        if (updatedExercise) {
+          return {
+            ...exercise,
+            previous: updatedExercise.sets.map((set) => ({
+              lbs: set.lbs || "",
+              reps: set.reps || "",
+              rir: set.rir || "",
+              type: set.type || "working",
+            })),
+          };
+        }
+        return exercise;
+      });
 
-        navigation.navigate(" History ");
-      } catch (e) {
-        console.error(e);
-      }
-    } else {
-      try {
-        const newWorkout = {
-          id: Date.now(),
-          title: title,
-          content: exercises,
-          lastPerformed: Date.now(),
-          time: (Date.now() - timeStarted) / 1000,
-        };
-        const jsonValue = await AsyncStorage.getItem("@workoutData");
-        const workouts = jsonValue != null ? JSON.parse(jsonValue) : [];
+      // Save the updated data back to AsyncStorage
+      await AsyncStorage.setItem(
+        "@exerciseData",
+        JSON.stringify(updatedExerciseData)
+      );
+      console.log(updatedExerciseData);
 
-        workouts.push(newWorkout);
-        await AsyncStorage.setItem("@workoutData", JSON.stringify(workouts));
+      // Save workout data
+      const workoutJsonValue = await AsyncStorage.getItem("@workoutData");
+      const workouts =
+        workoutJsonValue != null ? JSON.parse(workoutJsonValue) : [];
 
-        navigation.navigate(" History ");
-      } catch (e) {
-        console.error(e);
-      }
+      const newWorkout = {
+        id: id !== -1 ? id : Date.now(),
+        title: title,
+        content: exercises,
+        lastPerformed: id !== -1 ? lastPerformed : Date.now(),
+        time: id !== -1 ? time : (Date.now() - timeStarted) / 1000,
+      };
+
+      const updatedWorkouts =
+        id !== -1
+          ? workouts.map((workout) =>
+              workout.id === newWorkout.id ? newWorkout : workout
+            )
+          : [...workouts, newWorkout];
+
+      await AsyncStorage.setItem(
+        "@workoutData",
+        JSON.stringify(updatedWorkouts)
+      );
+
+      navigation.navigate(" History ");
+    } catch (e) {
+      console.error(e);
     }
+
     updateOngoing(false, null);
   };
 

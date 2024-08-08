@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import {
   View,
   TextInput,
@@ -8,6 +8,7 @@ import {
 } from "react-native";
 import styled from "styled-components/native";
 import { Ionicons } from "@expo/vector-icons";
+import AsyncStorage from "@react-native-async-storage/async-storage";
 
 const ExerciseItemContainer = styled.View`
   background-color: #fff;
@@ -52,6 +53,7 @@ const Column = styled.View`
 
 const EditableTextInput = styled.TextInput`
   text-align: center;
+  text-alignvertical: center;
   font-size: ${({ fontSize }) => fontSize || 12}px;
   font-weight: bold;
   color: ${({ color }) => color || "#000"};
@@ -72,6 +74,26 @@ const TitleContainer = styled(SafeAreaView)`
 const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
   const name = exercise.name;
   const [editableSets, setEditableSets] = useState(exercise.sets);
+  const [previousSets, setPreviousSets] = useState([]);
+
+  // Fetch and initialize exercise data from AsyncStorage
+  useEffect(() => {
+    const loadExerciseData = async () => {
+      try {
+        const jsonValue = await AsyncStorage.getItem("@exerciseData");
+        const exerciseData = jsonValue != null ? JSON.parse(jsonValue) : [];
+        const exerciseItem = exerciseData.find((ex) => ex.name === name);
+
+        if (exerciseItem) {
+          setPreviousSets(exerciseItem.previous);
+        }
+      } catch (e) {
+        console.error(e);
+      }
+    };
+
+    loadExerciseData();
+  }, []);
 
   const handleLbsChange = (index, value) => {
     const updatedSets = [...editableSets];
@@ -157,8 +179,10 @@ const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
           <Column flex={2}>
             <EditableTextInput
               value={
-                set.previous
-                  ? `${set.previous.lbs} lbs × ${set.previous.reps}`
+                previousSets[index] &&
+                previousSets[index].lbs &&
+                previousSets[index].reps
+                  ? `${previousSets[index].lbs} lbs × ${previousSets[index].reps}`
                   : "N/A"
               }
               editable={false}
@@ -170,6 +194,11 @@ const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
           <Column flex={2}>
             <EditableTextInput
               value={set.lbs.toString()}
+              placeholder={
+                previousSets[index] &&
+                previousSets[index].lbs &&
+                `${previousSets[index].lbs}`
+              }
               onChangeText={(value) => handleLbsChange(index, value)}
               keyboardType="numeric"
               fontSize={16}
@@ -179,6 +208,11 @@ const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
           <Column flex={2}>
             <EditableTextInput
               value={set.reps.toString()}
+              placeholder={
+                previousSets[index] &&
+                previousSets[index].reps &&
+                `${previousSets[index].reps}`
+              }
               onChangeText={(value) => handleRepsChange(index, value)}
               keyboardType="numeric"
               fontSize={16}
@@ -188,6 +222,11 @@ const ExerciseItem = ({ exercise, onUpdateSets, onRemoveExercise }) => {
           <Column flex={1}>
             <EditableTextInput
               value={set.rir.toString()}
+              placeholder={
+                previousSets[index] &&
+                previousSets[index].rir &&
+                `${previousSets[index].rir}`
+              }
               onChangeText={(value) => handleRirChange(index, value)}
               keyboardType="numeric"
               fontSize={16}

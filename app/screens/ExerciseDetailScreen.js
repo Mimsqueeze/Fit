@@ -74,6 +74,7 @@ function ExerciseDetailScreen({ route, navigation }) {
         name: name,
         muscles: muscles,
         instructions: instructions,
+        previous: [],
       };
       const jsonValue = await AsyncStorage.getItem("@exerciseData");
       const exercises = jsonValue != null ? JSON.parse(jsonValue) : [];
