@@ -1,7 +1,8 @@
-import React from "react";
+import { React, useState, useContext, useEffect } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import {
+  Alert,
   Platform,
   StatusBar,
   SafeAreaView,
@@ -12,15 +13,45 @@ import { Header, SubHeader, ContentText } from "../config/style";
 import WorkoutMovement from "../components/WorkoutMovement";
 import { Ionicons } from "@expo/vector-icons";
 import { useNavigation } from "@react-navigation/native";
+import { OngoingContext } from "../contexts/OngoingWorkoutContext";
 
 function WorkoutDetailScreen({ route }) {
   const { workout } = route.params;
   const navigation = useNavigation();
+  const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
+
   const handlePerformAgain = () => {
-    let newWorkout = workout;
-    newWorkout.title = "";
-    navigation.navigate("OngoingWorkoutScreen", { template: newWorkout });
+    if (ongoing) {
+      Alert.alert(
+        "Discard Workout",
+        "Are you sure you want to discard your current workout?",
+        [
+          {
+            text: "No",
+            onPress: () => console.log("Resumed workout"), // Optional: Handle resuming the workout
+            style: "cancel",
+          },
+          {
+            text: "Yes",
+            onPress: () => {
+              let newWorkout = workout;
+              newWorkout.title = "";
+              navigation.navigate("OngoingWorkoutScreen", {
+                template: newWorkout,
+              });
+            },
+            style: "destructive",
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      let newWorkout = workout;
+      newWorkout.title = "";
+      navigation.navigate("OngoingWorkoutScreen", { template: newWorkout });
+    }
   };
+
   return (
     <SafeContainer>
       <FlexBox>

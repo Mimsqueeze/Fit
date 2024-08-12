@@ -1,4 +1,4 @@
-import React from "react";
+import { React, useContext } from "react";
 import { View, Text } from "react-native";
 import styled from "styled-components/native";
 import {
@@ -6,17 +6,46 @@ import {
   StatusBar,
   SafeAreaView,
   ScrollView,
+  Alert,
   Button,
 } from "react-native";
 import { Header, SubHeader, ContentText } from "../config/style";
 import TemplateMovement from "../components/TemplateMovement";
 import { useNavigation } from "@react-navigation/native";
+import { OngoingContext } from "../contexts/OngoingWorkoutContext";
 
 function TemplateDetailScreen({ route }) {
   const navigation = useNavigation();
+  const { ongoing, ongoingWorkout, updateOngoing } = useContext(OngoingContext);
+
   const handleStartWorkout = () => {
-    navigation.navigate("OngoingWorkoutScreen", { template: workout });
+    if (ongoing) {
+      Alert.alert(
+        "Discard Workout",
+        "Are you sure you want to discard your current workout?",
+        [
+          {
+            text: "No",
+            onPress: () => console.log("Resumed workout"), // Optional: Handle resuming the workout
+            style: "cancel",
+          },
+          {
+            text: "Yes",
+            onPress: () => {
+              navigation.navigate("OngoingWorkoutScreen", {
+                template: workout,
+              });
+            },
+            style: "destructive",
+          },
+        ],
+        { cancelable: false }
+      );
+    } else {
+      navigation.navigate("OngoingWorkoutScreen", { template: workout });
+    }
   };
+
   const { workout } = route.params;
   const lastPerformedDays = daysAgo(workout.lastPerformed);
   return (

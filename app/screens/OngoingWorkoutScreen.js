@@ -14,6 +14,7 @@ import {
   TextInput,
   Text,
   TouchableNativeFeedback,
+  Alert,
 } from "react-native";
 import styled from "styled-components/native";
 import { SafeAreaView } from "react-native";
@@ -108,6 +109,29 @@ function OngoingWorkoutScreen({ route, navigation }) {
 
   const addExercise = () => {
     navigation.navigate("ExerciseSelectionScreen", { fromWorkout: true });
+  };
+
+  const cancelWorkout = () => {
+    Alert.alert(
+      "Discard Workout",
+      "Are you sure you want to discard this workout?",
+      [
+        {
+          text: "Resume",
+          onPress: () => console.log("Resumed workout"), // Optional: Handle resuming the workout
+          style: "cancel",
+        },
+        {
+          text: "Cancel Workout",
+          onPress: () => {
+            updateOngoing(false, null);
+            navigation.navigate(" History "); // Navigate to History screen
+          },
+          style: "destructive",
+        },
+      ],
+      { cancelable: false }
+    );
   };
 
   const handleRemoveExercise = (index) => {
@@ -241,6 +265,9 @@ function OngoingWorkoutScreen({ route, navigation }) {
         ))}
         <ButtonContainer>
           <Button title="ADD EXERCISE" onPress={addExercise} />
+        </ButtonContainer>
+        <ButtonContainer>
+          <Button title="CANCEL WORKOUT" onPress={cancelWorkout} />
         </ButtonContainer>
       </ScrollView>
       <Modal
